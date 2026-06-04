@@ -6,7 +6,7 @@ question: 'Comment commencer'
 category: 'general'
 ---
 
-**Lancez `npm create stardrive` et suivez les indications.**
+**Lancez `npm create stardrive@latest` et suivez les indications.**
 
 **Vous pouvez aussi cloner ou forker le [dépôt](https://github.com/peltmonger/stardrive) directement et lancer `npm install`.**
 

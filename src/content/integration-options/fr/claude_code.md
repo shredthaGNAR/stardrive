@@ -25,7 +25,7 @@ Bien sûr, chaque projet est différent et vos besoins peuvent varier par rappor
 ### CLI local
 
 1. Naviguez jusqu’au répertoire où vous souhaitez placer votre nouveau projet.
-2. Créez un nouveau boilerplate Stardrive avec `npm create stardrive`.
+2. Créez un nouveau boilerplate Stardrive avec `npm create stardrive@latest`.
 3. Lancez Claude Code avec `claude`.
 4. Parlez à Claude de votre projet et laissez-le démarrer - il trouvera automatiquement tous les guides et informations nécessaires.
 

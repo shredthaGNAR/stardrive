@@ -25,7 +25,7 @@ Of course, no project is the same and your requirements might differ form others
 ### Local CLI
 
 1. Navigate to the directory, where you want to place your new project in.
-2. Create a new Stardrive boilerplate via `npm create stardrive`.
+2. Create a new Stardrive boilerplate via `npm create stardrive@latest`.
 3. Start Codex via `codex`.
 4. Tell Codex about your project and let it start - it will find all guidance and information automatically.
 
