@@ -3,6 +3,7 @@ publishDate: 2026-06-01
 updatedDate: 2026-06-04
 draft: false
 featured: false
+llmsTxt: true
 slug: 'en/welcome'
 title: 'Welcome to Astro Stardrive'
 excerpt: 'We built a boilerplate on top of Astro to give you super powers when creating website. Completely free. Open Source. LLM friendly.'

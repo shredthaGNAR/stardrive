@@ -2,6 +2,7 @@
 publishDate: 2026-06-03
 draft: false
 featured: true
+llmsTxt: true
 title: 'Build kicking websites with Astro and AI'
 excerpt: 'We made thise boilerplate in an AI friendly way, so your Agent immediately knows how to work with it. Security included.'
 image:

@@ -2,6 +2,7 @@
 publishDate: 2026-06-05
 draft: false
 featured: true
+llmsTxt: true
 slug: 'en/webmcp-introduction'
 title: 'Make your content accessible for AI Agents - with WebMCP'
 excerpt: 'WebMCP (Web Model Context Protocol) is an experimental browser standard proposed by Google and Microsoft that turns websites into programmable tools for AI agents.'
