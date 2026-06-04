@@ -22,11 +22,11 @@ It also enables you to include components from any other big JavaScript framewor
 
 We recommend deploying on Cloudflare as Astro and Stardrive are optimized for their workers, but you are also free to use any other hoster.
 
-::: warning Mind Astro's frontend nature!
-Astro is a frontend framework. This means it runs as a static site on the client side.
-Do never add any sensitive information here! Any backend data needs to be processed by a respective backend service.
-While there are things that can act as a backend service (mainly Astro's on-demand server-side rendering, optionally combined with Middleware), it still is a frontend framework.
-:::
+> [!WARNING]
+> Mind Astro's frontend nature!
+> Astro is a frontend framework. This means it runs as a static site on the client side.
+> Do never add any sensitive information here! Any backend data needs to be processed by a respective backend service.
+> While there are things that can act as a backend service (mainly Astro's on-demand server-side rendering, optionally combined with Middleware), it still is a frontend framework.
 
 <br />
 
