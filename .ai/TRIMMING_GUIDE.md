@@ -51,7 +51,7 @@ Then edit:
 
 - `./scripts/postbuild.js` - remove the line `await import('./processSocialImages.js');`
 - `./src/content.config.ts` - remove the `const articles` declaration and remove `"articles"` from the export statement at the bottom.
-- `./theme.config.ts` - remove the `articles` section.
+- `./theme.config.ts` - remove the `articles` section, and remove `addArticles` from the `llms` settings.
 
 ## Step 3 - FAQ feature (optional)
 
@@ -65,6 +65,10 @@ Then edit `./src/content.config.ts`:
 
 - remove the `const faq_answers` declaration
 - remove `"faq_answers"` from the export statement at the bottom
+
+Then edit `./theme.config.ts`:
+
+- remove `addFAQ` from the `llms` settings.
 
 ## Step 4 - Integration catalog feature (optional)
 

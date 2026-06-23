@@ -72,7 +72,7 @@ export async function getLocaleUrlWithContent(entryId: string, collection: Colle
   // get entry first
   const baseEntry = await getEntry(collection, entryId);
   // if baseEntry includes i18nSlug, we use that, otherwise we use the entryId
-  const targetId = baseEntry?.collection !== 'faq_answers' && baseEntry?.data.i18nSlug?.[targetLang] ? baseEntry.data.i18nSlug[targetLang] : entryId;
+  const targetId = baseEntry && 'i18nSlug' in baseEntry.data && baseEntry.data.i18nSlug?.[targetLang] ? baseEntry.data.i18nSlug[targetLang] : entryId;
   if (!targetLang) targetLang = defaultLocale;
   const contentEntries = [
     ...new Set(
@@ -100,9 +100,9 @@ export function getLocaleUrl(slug: string, targetLang?: keyof typeof translation
 // validating if the translated path exists
 export async function checkTranslatedPath(currentLocale: keyof typeof translations, noi18n?: boolean, collection?: CollectionKey, entryId?: string) {
   const i18nSlug = await (async function () {
-    if (!collection || !entryId || collection === 'faq_answers') return null;
+    if (!collection || !entryId) return null;
     const baseEntry = await getEntry(collection, entryId);
-    return baseEntry?.data.i18nSlug;
+    return baseEntry && 'i18nSlug' in baseEntry.data ? baseEntry.data.i18nSlug : null;
   })();
   const contentEntries =
     collection && entryId
