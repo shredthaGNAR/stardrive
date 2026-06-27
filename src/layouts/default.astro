@@ -14,6 +14,7 @@ import HeadBase from "@components/head/base.astro";
 import HeadHrefLang from "@components/head/hreflang.astro";
 import HeadOgX from "@components/head/ogx.astro";
 import WebsiteStructuredData from "@components/structured/website.astro";
+import WebPageStructuredData from "@components/structured/webpage.astro";
 import LanguageSelect from "@components/layout/language-select.astro";
 import WebMCPTools from "@components/webmcp-tools.astro";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
@@ -48,7 +49,7 @@ interface Props {
   locale?: string;
   noi18n?: boolean;
   isHome?: boolean;
-  schemaType?: 'WebSite' | 'FAQPage';
+  schemaType?: 'WebPage' | 'FAQPage';
 }
 
 const locale = Astro.props.locale || themeConfig.i18n.defaultLocale;
@@ -61,7 +62,7 @@ const { isError, noi18n, robots, isHome, schemaType, header, showFooterBanner } 
 const ogTitle = themeConfig.ogTitle ?? t('meta.og-site-name');
 
 const structuredDataImage = '/images/structured-preview.png'; // inside the public dir; 16:9, min 1920x1080px recommended
-const TYPE = schemaType || 'WebSite';
+const TYPE = schemaType || 'WebPage';
 const i18nStructured = themeConfig.i18n.translatedStructuredData ? themeConfig.i18n.translatedStructuredData[locale.toString()] : null;
 const author = {
   '@type': themeConfig.author.type,
@@ -86,7 +87,8 @@ const showTopBanner = (themeConfig.promotions?.topBanner && header?.showTopBanne
     <HeadHrefLang {locale} {noi18n} />
     <HeadOgX {locale} {title} {description} {ogTitle} />
     <!-- Structured Data -->
-    <WebsiteStructuredData {title} image={structuredDataImage} {author} {publisher} type={TYPE} />
+    {isHome ? <WebsiteStructuredData {title} image={structuredDataImage} {author} {publisher} {locale} /> : null}
+    <WebPageStructuredData type={TYPE} {title} description={description} image={structuredDataImage} {author} {publisher} {locale} />
     <!-- Transitions -->
     <ClientRouter />
   </head>
@@ -94,8 +96,8 @@ const showTopBanner = (themeConfig.promotions?.topBanner && header?.showTopBanne
     {showTopBanner ? <TopBanner {locale} /> : null}
     <div class="relative w-full">
       {header?.hidden !== true && <Header {locale} button={header?.button ?? undefined} github="https://github.com/Peltmonger/stardrive" ctaButton={{text:t('labels.signup'),href:getLocaleUrl('signup', locale)}} {isHome} fixed={header?.fixed} overlay={header?.overlay} overlayTheme="dark" scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} hasTopBanner={showTopBanner} />}
-      {isHome && <Hero {locale} />}
       <main role="main">
+        {isHome && <Hero {locale} />}
         <div class="container mx-auto pt-4 md:pt-8 pb-10 md:pb-14 lg:pb-16">
           <slot />
         </div>

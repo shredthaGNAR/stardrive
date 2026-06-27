@@ -1,5 +1,5 @@
 ---
-import { getUrlWithoutLocale, getLocaleUrl } from "@utils/i18n";
+import { getCleanLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
 
 interface Props {
@@ -13,13 +13,10 @@ interface Props {
 
 const { locale, title, description, ogTitle, ogImage, xImage } = Astro.props as Props;
 
-const ogImg = ogImage ?? Astro.site + "img/og.png";
-const xImg = xImage ?? Astro.site + "/img/x.png";
+const ogImg = ogImage ?? Astro.site + "images/og.png";
+const xImg = xImage ?? Astro.site + "images/x.png";
 
-const url = (function () {
-  const cleanPath = getUrlWithoutLocale(Astro.url, locale);
-  return getLocaleUrl(cleanPath, locale, true).replace(/\.html$/, '');
-})();
+const url = getCleanLocaleUrl(Astro.url, locale);
 ---
 
 <!-- open graph -->

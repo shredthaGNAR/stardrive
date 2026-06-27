@@ -2,8 +2,48 @@ import { visit } from 'unist-util-visit';
 import type { RehypePlugin } from '@astrojs/markdown-remark';
 import type { Root } from 'hast';
 
-const URL_PATTERN = /^(?:https?:\/\/)?(?:youtu\.be\/|youtube\.com\/watch\?v=)([\w-]+)(?:&t=([\w-]+))?(?:&list=([\w-]+))?(?:&title=([^&]*))?$/;
 // scheme: youtube.com/watch?v=VIDEO_ID&t=TIME&list=PLAYLIST_ID&title=TITLE with t and list being optional
+const ID_PATTERN = /^[\w-]+$/;
+
+type YoutubeParts = {
+  videoId: string;
+  time: string;
+  list: string;
+  title: string | null;
+};
+
+const parseYoutube = (textContent: string): YoutubeParts | null => {
+  const normalized = /^https?:\/\//.test(textContent) ? textContent : `https://${textContent}`;
+
+  let url: URL;
+  try {
+    url = new URL(normalized);
+  } catch {
+    return null;
+  }
+
+  const host = url.hostname.replace(/^www\./, '');
+  let videoId: string | null = null;
+
+  if (host === 'youtu.be') {
+    videoId = url.pathname.slice(1);
+  } else if (host === 'youtube.com' && url.pathname === '/watch') {
+    videoId = url.searchParams.get('v');
+  }
+
+  if (!videoId || !ID_PATTERN.test(videoId)) return null;
+
+  const t = url.searchParams.get('t');
+  const listId = url.searchParams.get('list');
+  const title = url.searchParams.get('title');
+
+  return {
+    videoId,
+    time: t && ID_PATTERN.test(t) ? '&amp;start=' + t.replace(/s$/, '') : '',
+    list: listId && ID_PATTERN.test(listId) ? '&amp;listType=playlist&amp;list=' + listId : '',
+    title: title || null,
+  };
+};
 
 export const rehypeYoutubePlugin: RehypePlugin = () => {
   return (tree: Root) => {
@@ -13,13 +53,11 @@ export const rehypeYoutubePlugin: RehypePlugin = () => {
       }
 
       const textContent = node.children[0].value;
-      const match = textContent.match(URL_PATTERN);
-      const videoId = match && match[1] ? match[1] : null;
-      const time = match && match[2] ? '&amp;start=' + match[2].replace(/s$/, '') : '';
-      const list = match && match[3] ? '&amp;listType=playlist&amp;list=' + match[3] : '';
-      const title = match && match[4] ? match[4] : null;
+      const parsed = parseYoutube(textContent);
 
-      if (!videoId) return;
+      if (!parsed) return;
+
+      const { videoId, time, list, title } = parsed;
 
       // Replace YouTube component with iframe
       node.tagName = 'div';

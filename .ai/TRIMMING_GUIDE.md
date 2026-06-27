@@ -9,7 +9,7 @@ This applies when the user cloned Stardrive **directly** (e.g. via `git clone`) 
 1. **Always-on steps** (marked `always`): execute them without asking. They remove demo/system files that are never useful in a real project and can cause conflicts.
 2. **Optional steps** (marked `optional`): you MUST ask the user whether they want to keep that feature before removing anything related to it. Never delete an optional feature without explicit confirmation.
 3. **Start by interviewing the user.** Present the optional features in one prompt - Blog, FAQ, Integration catalog, and Cloudflare hosting - and ask which they want to **keep**. Then remove only the ones they do not want.
-4. When deleting a file or directory, verify it exists first. If it is already gone, report it and continue rather than failing.
+4. When deleting a file or directory, verify it exists first. Mind that all paths are based on the project root, where the package.json is located. If an element is already gone, report it and continue rather than failing.
 5. After removals, complete the navigation cleanup and any dependency uninstall that corresponds to what was removed.
 6. Do not commit changes unless the user asks.
 
@@ -28,6 +28,8 @@ Delete the following without asking:
 - `./CHANGELOG.md`
 - `./repository-header.png`
 - `./.github` (whole directory)
+
+In the [package.json](../package.json), remove the "prebuild" script, the "sync-version" script, and the `npm run sync-version && ` from the "fix" script.
 
 ## Step 2 - Blog feature (optional)
 

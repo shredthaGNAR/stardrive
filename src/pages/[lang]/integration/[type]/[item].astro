@@ -10,6 +10,8 @@ import { themeConfig } from '~/theme.config';
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import "@styles/markdown.css";
 
+export const prerender = false; // We opt out from prerendering, assuming that might be a lot of elements here, while running on Cloudflare worker. Change this, if your case is rather about a small amount of pages
+
 export async function getStaticPaths() {
   const langs = themeConfig.i18n.locales.filter(
     (lang) => lang !== themeConfig.i18n.defaultLocale

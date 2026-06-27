@@ -3,9 +3,8 @@ import { Icon } from "astro-icon/components";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from "~/theme.config";
 import MainNav from "@components/layout/nav/main-nav.astro";
-import { Image } from 'astro:assets';
-import logo from '@images/logo.svg';
-import logoWhite from '@images/logo-white.svg';
+import Logo from '@images/logo.svg';
+import LogoWhite from '@images/logo-white.svg';
 
 interface Props {
   locale: string;
@@ -45,13 +44,13 @@ const siteName = themeConfig.name ?? themeConfig.shortName ?? t('meta.title');
     </a>
   ) : (
     isHome ? (
-      <Image src={logo} alt={siteName} class:list={["h-10 select-none w-fit header-logo-dark", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
-      <Image src={logoWhite} alt={siteName} class:list={["h-10 select-none w-fit header-logo-white", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'hidden dark:block']} />
+      <Logo class:list={["h-10 select-none touch-none w-fit header-logo-dark", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
+      <LogoWhite class:list={["h-10 select-none touch-none^ w-fit header-logo-white", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'hidden dark:block']} />
 
     ) : (
       <a href={getLocaleUrl('/', locale)} class="w-fit select-none block" tabindex={tabIndex}>
-        <Image src={logo} alt={siteName} class:list={["w-fit h-10 header-logo-dark", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
-        <Image src={logoWhite} alt={siteName} class:list={["w-fit h-10 header-logo-white", logoTheme === 'light' ? 'hidden' : logoTheme === 'dark' ? 'block' : 'hidden dark:block']} />
+        <Logo class:list={["w-fit h-10 header-logo-dark", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
+        <LogoWhite class:list={["w-fit h-10 header-logo-white", logoTheme === 'light' ? 'hidden' : logoTheme === 'dark' ? 'block' : 'hidden dark:block']} />
       </a>
     )
   )}

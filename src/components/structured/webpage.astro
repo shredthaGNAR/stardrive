@@ -2,6 +2,7 @@
 import { getCleanLocaleUrl } from "@utils/i18n";
 
 interface Props {
+  type: "WebPage" | "FAQPage";
   title: string;
   description?: string;
   image?: string;
@@ -20,7 +21,7 @@ interface Props {
   }
 }
 
-const { title, description, image, locale } = Astro.props as Props;
+const { title, description, type, image, locale } = Astro.props as Props;
 
 const pageUrl = getCleanLocaleUrl(Astro.url, locale);
 
@@ -30,7 +31,7 @@ const publisher = Astro.props.publisher ? { "@context": "https://schema.org", ..
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
+  "@type": type,
   name: title,
   ...(description && { about: description }),
   url: pageUrl,

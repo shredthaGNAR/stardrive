@@ -1,54 +1,67 @@
 {
   "nav": {
-    "home": "Home",
-    "features": "Features",
+    "home": "Accueil",
+    "features": "Fonctionnalités",
     "docs": "Docs",
-    "examples": "Examples",
+    "docs-installation": "Installation",
+    "docs-installation-explainer": "Le mettre en route",
+    "docs-configuration": "Configuration",
+    "docs-guide": "Guide",
+    "docs-guide-explainer": "Comment vraiment travailler avec",
+    "examples": "Exemples",
     "blog": "Blog",
     "faq": "FAQ",
-    "about": "About",
+    "about": "À propos",
     "contact": "Contact",
-    "pricing": "Pricing",
-    "integration": "Integration",
-    "get-listed": "Get Listed",
-    "status": "Status",
-    "legal-notice": "Legal Notice",
-    "privacy-policy": "Privacy Policy"
+    "pricing": "Tarifs",
+    "integration": "Intégration",
+    "get-listed": "Être référencé",
+    "status": "Statut",
+    "legal-notice": "Mentions légales",
+    "privacy-policy": "Politique de confidentialité"
   },
   "labels": {
-    "author": "Author",
-    "published": "Published",
-    "updated": "Updated",
-    "by_category": "by Category",
-    "by_tag": "by Tag",
-    "tags": "Tags",
-    "tag": "Tag",
-    "categories": "Categories",
-    "category": "Category",
-    "no-entries": "No Entries",
-    "featured": "Featured",
-    "continue-reading": "Continue Reading",
-    "share-article": "Share it",
-    "share-email-subject": "Have a look at this article",
-    "email": "Email",
-    "toc": "Table of Contents",
-    "min-read": "min read",
-    "to-start": "To the Beginning",
-    "back-overview": "Overview",
-    "back-all-articles": "All Articles",
+    "ad": "Publicité",
+    "signup": "S'inscrire",
+    "learn-more": "En savoir plus",
+    "explore-more": "Explorer plus",
+    "get-started": "Commencer",
+    "explore-features": "Découvrir les fonctionnalités",
+    "author": "Auteur",
+    "published": "Publié",
+    "updated": "Mis à jour",
+    "by_category": "par catégorie",
+    "by_tag": "par étiquette",
+    "tags": "Étiquettes",
+    "tag": "Étiquette",
+    "categories": "Catégories",
+    "category": "Catégorie",
+    "no-entries": "Aucune entrée",
+    "featured": "À la une",
+    "continue-reading": "Continuer la lecture",
+    "share-article": "Partager",
+    "share-email-subject": "Jetez un œil à cet article",
+    "email": "E-mail",
+    "toc": "Table des matières",
+    "min-read": "min de lecture",
+    "to-start": "Au début",
+    "back": "Retour",
+    "back-overview": "Aperçu",
+    "back-all-articles": "Tous les articles",
     "pagination": "Pagination",
     "page": "Page",
-    "prev": "Previous",
-    "next": "Next",
-    "close-menu": "Close Menu",
-    "change-light-mode": "Change Light/Dark Mode",
-    "offering": "Offering",
-    "company": "Company",
-    "resources": "Resources",
-    "subscribe": "Subscribe to our Newsletter",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "open-menu": "Ouvrir le menu",
+    "close-menu": "Fermer le menu",
+    "change-light-mode": "Changer le mode clair/sombre",
+    "offering": "Offre",
+    "company": "Entreprise",
+    "resources": "Ressources",
+    "subscribe": "Abonnez-vous à notre newsletter",
     "subscribe-tool": "Inscrire une adresse e-mail à la newsletter.",
     "subscribe-email-param": "L'adresse e-mail à inscrire à la newsletter.",
-    "trusted": "Approuvé par de grandes équipes"
+    "generic-error": "Une erreur s'est produite. Veuillez réessayer plus tard."
   },
   "meta": {
     "title": "Fallback Title for Stardrive",
@@ -62,19 +75,40 @@
     "current-language": "current one",
     "noi18n": "Not translated"
   },
+  "global-promo": {
+    "top-text-1": "Ce n'est pas qu'un simple thème !",
+    "top-text-2": "C'est un boilerplate et un template complets pour mettre votre site web en ligne en un rien de temps.",
+    "top-cta": "En savoir plus",
+    "footer-heading": "Inscrivez-vous maintenant",
+    "footer-text": "Découvrez notre application. C'est gratuit. Aucune carte de crédit requise.",
+    "footer-cta": "Commencer"
+  },
   "pages": {
     "404": {
-      "title": "404 - Not Found",
-      "message": "Ooops. You somehow found a page that does not exist. Maybe never existed or was deleted. Please check the URL or go back to the main page."
+      "title": "404 - Introuvable",
+      "message": "Oups. Vous avez trouvé une page qui n'existe pas.\nElle n'a peut-être jamais existé ou a été supprimée.\n\nVeuillez vérifier l'URL ou revenir à la page d'accueil."
+    },
+    "home": {
+      "hero-chip": "Dernière version",
+      "hero-title": "La puissance d'Astro, mais dopée.",
+      "hero-sub-slogan": "Créez des sites web ultra stables et rapides à l'ère de l'IA.",
+      "references": "Propulsé par une technologie formidable"
     },
     "features": {
-      "title": "Features"
+      "title": "Fonctionnalités",
+      "description": "Découvrez les puissantes fonctionnalités d'Astro Stardrive qui en font le boilerplate ultime pour votre prochain projet."
     },
     "docs": {
-      "title": "Documentation"
+      "title-install": "Comment installer",
+      "description-install": "Apprenez à installer Astro Stardrive et à mettre rapidement votre projet en route.",
+      "title-configuration": "Configuration",
+      "description-configuration": "Configurez Astro Stardrive selon les besoins de votre projet.",
+      "title-guide": "Guide",
+      "description-guide": "Suivez le guide pour comprendre comment utiliser efficacement Astro Stardrive."
     },
     "examples": {
-      "title": "Real-World Examples"
+      "title": "Exemples concrets",
+      "description": "Découvrez des exemples concrets de sites web créés avec Astro Stardrive pour inspirer votre prochain projet."
     },
     "faq": {
       "title": "Foire aux questions",
@@ -84,10 +118,12 @@
       "no-results": "Aucune question ne correspond à votre recherche."
     },
     "about": {
-      "title": "About us"
+      "title": "À propos de nous",
+      "description": "Apprenez-en plus sur l'équipe derrière une entreprise fictive – ceci est à des fins de démonstration."
     },
     "contact": {
-      "title": "Contact us",
+      "title": "Contactez-nous",
+      "description": "Contactez personne – ceci est uniquement à des fins de démonstration – utilisez GitHub pour vos demandes.",
       "intro-heading": "Discutons",
       "intro-text": "Une question, une idée ou simplement envie de dire bonjour ? Écrivez-nous et nous vous répondrons dès que possible.",
       "docs-heading": "Pas envie d'attendre ?",
@@ -111,25 +147,38 @@
       "tool-message-param": "Le contenu du message ou de la demande."
     },
     "pricing": {
-      "title": "Our Pricing"
+      "title": "Nos tarifs",
+      "description": "Choisissez le forfait qui répond à vos besoins. Pas d'inquiétude ! Stardrive est gratuit – ceci est uniquement à des fins de démonstration."
     },
     "integration": {
       "title": "Intégration",
+      "description": "Apprenez à intégrer Astro Stardrive à vos outils et flux de travail existants.",
+      "intro": "Intégrez vos outils et plateformes préférés pour booster votre flux de travail de développement.",
       "search-placeholder": "Filtrer les services...",
       "no-results": "Aucun service ne correspond à votre recherche."
     },
+    "integration-ai": {
+      "title": "Intégration de l'IA",
+      "description": "Découvrez des assistants de codage qui vous aident à travailler encore plus efficacement avec Astro Stardrive. Stardrive est déjà préparé à communiquer avec eux."
+    },
+    "integration-zapier": {
+      "title": "Intégration Zapier",
+      "description": "Apprenez à connecter Astro Stardrive à des milliers d'applications grâce à Zapier pour une automatisation fluide. Il s'agit plutôt d'une collection de démonstration, car il n'y a pas de cas d'usage réel pour cela."
+    },
     "get-listed": {
-      "title": "Get Listed"
+      "title": "Être référencé",
+      "description": "Apprenez comment faire référencer votre site web comme exemple concret."
     },
     "legal-notice": {
-      "title": "Legal Notice",
-      "intro": "Information in accordance with section 5 TMG and section 55 para. 2 RStV"
+      "title": "Mentions légales",
+      "intro": "Informations conformément à l'article 5 TMG et à l'article 55 al. 2 RStV"
     },
     "privacy-policy": {
-      "title": "Privacy Policy"
+      "title": "Politique de confidentialité"
     },
     "blog": {
-      "title": "Blog"
+      "title": "Blog",
+      "description": "Lisez nos derniers articles sur Astro, le développement web et plus encore."
     }
   },
   "rss": {
@@ -137,31 +186,36 @@
     "description": "Subscribe to the RSS Feed to stay up to date with the latest articles."
   },
   "tags-t": {
-    "project-management": "Project Management",
-    "consumer-behavior": "Consumer Behavior",
-    "market-research": "Market Research",
-    "science": "Science",
-    "psychology": "Psychology",
-    "advertisement-effectiveness": "Advertisement Effectiveness",
-    "advertisement": "Advertisement",
-    "organizational-development": "Organizational Development",
-    "ai": "Artificial Intelligence",
-    "conceptioning": "Conceptioning"
+    "astro": "Astro",
+    "js": "JavaScript",
+    "ts": "TypeScript",
+    "cloudflare": "Cloudflare",
+    "react": "React",
+    "vue": "Vue",
+    "svelte": "Svelte",
+    "solidjs": "SolidJS",
+    "tailwind": "Tailwind CSS",
+    "directus": "Directus",
+    "supabase": "Supabase",
+    "github": "GitHub"
   },
   "categories-t": {
-    "management": "Management",
-    "finance": "Finance",
-    "marketing": "Marketing",
-    "strategy": "Strategy",
-    "entrepreneurship": "Entrepreneurship",
-    "product-management": "Product Management",
-    "software-engineering": "Software Engineering",
-    "ux": "User Experience",
-    "design": "Design",
-    "mixed": "Mixed",
+    "web-development": "Développement web",
+    "infrastructure": "Infrastructure",
+    "ai": "IA",
+    "it-security": "Sécurité informatique",
+    "productivity": "Productivité",
+    "billing": "Facturation",
+    "features": "Fonctionnalités",
+    "troubleshooting": "Dépannage",
     "general": "Général",
     "technical": "Technique",
-    "support": "Support",
-    "billing": "Facturation"
+    "support": "Support"
+  },
+  "ads": {
+    "atcp": {
+      "title": "Add to Calendar Pro",
+      "description": "Découvrez les meilleurs outils de marketing événementiel à prix juste"
+    }
   }
 }

@@ -1,5 +1,5 @@
 ---
-import { getUrlWithoutLocale, getLocaleUrl } from "@utils/i18n";
+import { getCleanLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
 import { THEME_INIT_SCRIPT } from '@utils/themeSwitch';
 
@@ -15,13 +15,7 @@ interface Props {
 const { locale, title, description, isError, externalCanonical } = Astro.props as Props;
 const robots = Astro.props.robots || themeConfig.robots || "noindex, nofollow";
 
-const canonical = (function () {
-  if (externalCanonical) {
-    return externalCanonical;
-  }
-  const cleanPath = getUrlWithoutLocale(Astro.url, locale);
-  return getLocaleUrl(cleanPath, locale, true).replace(/\.html$/, '');
-})();
+const canonical = externalCanonical || getCleanLocaleUrl(Astro.url, locale);
 ---
 
 <!-- theme init: runs synchronously before first paint to prevent flash -->

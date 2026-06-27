@@ -57,6 +57,13 @@ export function getUrlWithoutLocale(url: URL, currentLang?: keyof typeof transla
   return path === `/${currentLang}` || path === `/${currentLang}.html` ? '/' : path.replace(`/${currentLang}/`, '/');
 }
 
+// build a clean, locale-aware absolute URL for the current page
+// Pass a different `targetLang` to retarget the URL to another locale (e.g. for hreflang alternates).
+export function getCleanLocaleUrl(url: URL, currentLang?: keyof typeof translations, targetLang?: keyof typeof translations) {
+  const cleanPath = getUrlWithoutLocale(url, currentLang);
+  return getLocaleUrl(cleanPath, targetLang ?? currentLang, true).replace(/(?:index)?\.html$/, '');
+}
+
 // get path with locale, minding the dynamic nature of content
 export async function getLocaleUrlWithContent(entryId: string, collection: CollectionKey, targetLang: keyof typeof translations, absolute?: boolean, absoluteBasePath?: string) {
   // get entry first

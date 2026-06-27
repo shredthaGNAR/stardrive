@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, svgoOptimizer } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 import solidJs from '@astrojs/solid-js';
@@ -22,7 +22,11 @@ export const sitemap_i18n = {
 // https://astro.build/config
 export default defineConfig({
   site: themeConfig.site,
-  output: 'static', // use 'server' for SSR, 'static' for static site generation (SSG); see https://docs.astro.build/en/guides/on-demand-rendering/ for details. SSR makes sense if you have a lot (!) of pages. Otherwise, use static and opt-out some pages from prerendering if needed (https://docs.astro.build/en/reference/routing-reference/#per-page-override).
+  // use 'server' for SSR, 'static' for static site generation (SSG); see https://docs.astro.build/en/guides/on-demand-rendering/ for details.
+  // SSR makes sense if you have a lot (!) of pages.
+  // Otherwise, use static and opt-out some pages from prerendering if needed and supported by your hosting solution (https://docs.astro.build/en/reference/routing-reference/#per-page-override).
+  // Assuming we are running on Cloudflare workers and might have a lot of blog posts and integration items, we opt for SSR for them - at least for the purpose of this demo.
+  output: 'static',
   session: {
     // remove if you require this feature; see https://docs.astro.build/en/reference/session-driver-reference/ for details
     driver: {
@@ -41,8 +45,67 @@ export default defineConfig({
     layout: 'constrained',
   },
 
+  experimental: {
+    // Always include svg images as components or <img> tags, never via Astro's <Image> component. The latter one is not supported by Cloudflare and might also break in other scenarios.
+    // To auto-optimize SVGs, we use the svgo optimizer. If your svg files look strange, you might want to tweak its configuration or even disable it.
+    // See https://docs.astro.build/en/reference/experimental-flags/svg-optimization/
+    svgOptimizer: svgoOptimizer({
+      multipass: true,
+      floatPrecision: 5,
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              cleanupIds: false,
+              inlineStyles: false,
+              removeHiddenElems: false,
+              convertShapeToPath: false,
+              convertEllipseToCircle: false,
+              convertPathData: false,
+              convertTransform: {
+                degPrecision: 1,
+                transformPrecision: 3,
+              },
+              removeEmptyAttrs: false,
+              removeDesc: false,
+            },
+          },
+        },
+        'removeXMLNS',
+        'convertStyleToAttrs',
+        'removeRasterImages',
+        'reusePaths',
+        {
+          name: 'removeXlink',
+          params: { includeLegacy: true },
+        },
+        {
+          name: 'prefixIds',
+          params: {
+            delim: '_',
+            prefix: () => Math.random().toString(36).slice(2, 8),
+            prefixIds: true,
+            prefixClassNames: false,
+          },
+        },
+      ],
+    }),
+  },
+
   vite: {
     plugins: [tailwindcss()],
+    // The Cloudflare adapter renders on-demand routes (e.g. an unmatched URL hitting the 404 page)
+    // inside the workerd runtime during `astro dev`. Some transitive CommonJS deps (debug -> ms, pulled
+    // in via astro-icon -> @iconify/utils) reference the Node-only `module` global, which throws
+    // "module is not defined" in workerd. Pre-bundling them with the dep optimizer (esbuild) converts
+    // the CJS to ESM so they no longer reference `module`.
+    // Production is unaffected as long as things are prerendered (output: 'static'), but would also fail with on-demand SSR.
+    // The pre-bundling mitigates the issue for both dev and production, so we do it here.
+    // see https://docs.astro.build/en/guides/integrations-guide/cloudflare/#some-dependencies-might-need-to-be-pre-compiled
+    optimizeDeps: {
+      include: ['debug', 'ms'],
+    },
   },
 
   markdown: {
@@ -81,6 +144,7 @@ export default defineConfig({
     icon(),
     astroExpressiveCode({ themes: themeConfig.expressiveCodeThemes, plugins: [pluginLineNumbers()], defaultProps: { showLineNumbers: false } }),
     (await import('astro-compress')).default({
+      CSS: false, // disabled: astro-compress's CSS minifier (csso) strips Tailwind v4's modern `@media (width >= ...)` range syntax, which removes all responsive breakpoints and makes the site render mobile-only. Vite already minifies CSS safely.
       HTML: {
         'html-minifier-terser': {
           removeAttributeQuotes: false,
@@ -90,7 +154,7 @@ export default defineConfig({
   ],
 
   adapter: cloudflare({
-    imageService: 'cloudflare', // mind to activate image optimization in the Cloudflare dashboard for your Zone/Worker!
-    prerenderEnvironment: 'node', // only works for the prerender. On demand SSR uses the Cloudflare workerd runtime, which is the default and cannot be changed. Node for build is currently required due to some missing features on Cloudflare's isolated worker runtime!
+    imageService: 'cloudflare', // mind to activate Media > Images > Transformations in the Cloudflare dashboard for your Zone/Worker!
+    prerenderEnvironment: 'node', // only applies to prerendering at build time. On-demand SSR always uses the Cloudflare workerd runtime. Node is currently required here because some render-time dependencies call Node-only path/url APIs that are not available in workerd's isolated runtime.
   }),
 });

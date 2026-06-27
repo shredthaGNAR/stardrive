@@ -2,8 +2,7 @@
 import { Icon } from "astro-icon/components";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
-import { Image } from 'astro:assets';
-import logo from '@images/logo-white.svg';
+import Logo from '@images/logo-footer.svg';
 import FooterNav from "@components/layout/nav/footer-nav.astro";
 import LegalNav from "@components/layout/nav/legal.astro";
 import LightModeSwitch from "@components/layout/light-mode-switch.astro";
@@ -17,8 +16,6 @@ interface Props {
 
 const { locale, isError, isHome } = Astro.props as Props;
 const t = useTranslations(locale);
-
-const siteName = themeConfig.name ?? themeConfig.shortName ?? t('meta.title');
 ---
 
 <footer role="contentinfo" class="pt-14 bg-linear-to-t from-secondary-dark to-stone-900">
@@ -26,7 +23,7 @@ const siteName = themeConfig.name ?? themeConfig.shortName ?? t('meta.title');
     <div class="flex flex-col items-start gap-5 sm:max-w-[350px]">
       <div class="w-auto max-w-[200px]">
         <a href={getLocaleUrl('/', locale)} class="select-none block w-full">
-          <Image src={logo} alt={siteName} class="w-full h-auto drop-shadow" />
+          <Logo class="w-full h-auto drop-shadow" />
         </a>
       </div>
       <div class="flex flex-col gap-1 text-balance text-left text-stone-50">

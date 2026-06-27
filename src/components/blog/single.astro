@@ -9,7 +9,7 @@ import CatTagList from "@components/blog/cat-tag-list.astro";
 import ListItem from "@components/blog/list-item.astro";
 import TableOfContents from "@components/blog/table-of-contents.astro";
 import Toc from "@components/blog/toc.tsx";
-import { useTranslations, getUrlWithoutLocale, getLocaleUrl } from "@utils/i18n";
+import { useTranslations, getCleanLocaleUrl} from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
 import { getReadingTime } from '@utils/reading-time';
 
@@ -31,10 +31,7 @@ const { Content, headings } = await render(entry);
 const tocDepth = entry.data.tocDepth || themeConfig.articles?.tocMaxDepth || 3;
 const reducedHeadings = headings.filter(({ depth }: { depth: number }) => depth <= tocDepth);
 
-const articleUrl = (function () {
-  const cleanPath = getUrlWithoutLocale(Astro.url, locale);
-  return getLocaleUrl(cleanPath, locale, true).replace(/\.html$/, '');
-})();
+const articleUrl = getCleanLocaleUrl(Astro.url, locale);
 
 const authorName = themeConfig.articles?.defaults?.author?.name ? themeConfig.articles.defaults.author.name : entry.data.author?.name;
 const authorUrl = themeConfig.articles?.defaults?.author?.url ? themeConfig.articles.defaults.author.url : entry.data.author?.url;

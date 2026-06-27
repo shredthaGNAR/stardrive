@@ -9,10 +9,8 @@
  * tools work offline without any backend calls.
  */
 import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
 import { collections } from "@/content.config";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
-import { sortArticleList } from "@utils/blog";
 import { themeConfig } from "~/theme.config";
 
 interface Props {
@@ -24,6 +22,18 @@ const t = useTranslations(locale);
 
 const hasArticles = "articles" in collections;
 const hasFaq = "faq_answers" in collections;
+
+// `getCollection` and `CollectionEntry` are typed against the collection names
+// defined in the current `content.config.ts`. The Blog (`articles`) and FAQ
+// (`faq_answers`) collections can be trimmed out of that config, in which case
+// referencing their names here would raise a compile error even though the
+// `... in collections` runtime guard already prevents the call from executing.
+// This loosely-typed wrapper keeps the runtime behaviour while accepting any
+// collection name and a caller-provided shape for the entry data.
+const getEntries = getCollection as unknown as <T>(
+  collection: string,
+  filter?: (entry: { id: string; data: T }) => unknown,
+) => Promise<{ id: string; body?: string; data: T }[]>;
 
 // --- Blog data (only if the `articles` collection is defined) ---
 let blog: {
@@ -40,9 +50,22 @@ let blog: {
 } | null = null;
 
 if (hasArticles) {
-  const articles = sortArticleList(
-    (await getCollection("articles", ({ id, data }) => !data.draft && id.startsWith(locale + "/"))) as CollectionEntry<"articles">[],
-  );
+  type ArticleData = {
+    title: string;
+    publishDate: Date;
+    featured?: boolean;
+    draft?: boolean;
+    tags?: string[];
+    categories?: string[];
+  };
+
+  const articles = (
+    await getEntries<ArticleData>("articles", ({ id, data }) => !data.draft && id.startsWith(locale + "/"))
+  ).sort((a, b) => {
+    if (a.data.featured && !b.data.featured) return -1;
+    if (!a.data.featured && b.data.featured) return 1;
+    return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+  });
 
   const tagIds = [...new Set(articles.flatMap((a) => a.data.tags ?? []))];
   const categoryIds = [...new Set(articles.flatMap((a) => a.data.categories ?? []))];
@@ -67,8 +90,14 @@ let faq: {
 } | null = null;
 
 if (hasFaq) {
+  type FaqData = {
+    question: string;
+    category?: string;
+    draft?: boolean;
+  };
+
   const faqEntries = (
-    (await getCollection("faq_answers", ({ id, data }) => !data.draft && id.startsWith(locale + "/"))) as CollectionEntry<"faq_answers">[]
+    await getEntries<FaqData>("faq_answers", ({ id, data }) => !data.draft && id.startsWith(locale + "/"))
   ).sort((a, b) => a.data.question.localeCompare(b.data.question, locale));
 
   const faqCategoryIds = [...new Set(faqEntries.map((e) => e.data.category).filter(Boolean) as string[])];

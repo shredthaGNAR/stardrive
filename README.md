@@ -107,13 +107,13 @@ It is highly recommended to create a new project via:
 npm create stardrive@latest
 ```
 
-*or*
+_or_
 
 ```sh
 pnpm create stardrive@latest
 ```
 
-*or*
+_or_
 
 ```sh
 yarn create stardrive@latest
@@ -158,8 +158,8 @@ During the further configuration, you will delete and adjust even more content, 
 
 ## 🗂️ Structure
 
-The code structure follows the official Astro scheme. It is recommended to rather keep it that way. 
-A clear exception is the component directory. There, we rather keep the amount of files low than splitting everything into atoms. 
+The code structure follows the official Astro scheme. It is recommended to rather keep it that way.
+A clear exception is the component directory. There, we rather keep the amount of files low than splitting everything into atoms.
 Adjust this based on your project, personal taste, and coding guidelines!
 
 ```
@@ -269,9 +269,9 @@ You still need to build the actual website 😉.
 
 Third, some things are configurable via env variables at build time.
 
-* SITE_OVERRIDE: Would override the global site url. Useful for dev environments.
-* ROBOTS: Would override the global default robots setting. Useful for dev environments. Settings on the page level would still override this again!
-* CF_PURGE_API_KEY and CF_PURGE_ZONE_ID: Required if you want to use the Cloudflare purge script when hosting on Cloudflare workers.
+- SITE_OVERRIDE: Would override the global site url. Useful for dev environments.
+- ROBOTS: Would override the global default robots setting. Useful for dev environments. Settings on the page level would still override this again!
+- CF_PURGE_API_KEY and CF_PURGE_ZONE_ID: Required if you want to use the Cloudflare purge script when hosting on Cloudflare workers.
 
 ### Step by Step Guide
 
@@ -280,33 +280,42 @@ Third, some things are configurable via env variables at build time.
 3. Adjust the [README.md](./README.md) file to at least hold the name of your project as headline. This makes it easier for you to identify your project later.
 4. Replace the favicon and web-app-manifest files in ./public/. We recommend to use [realfavicongenerator.net](https://realfavicongenerator.net/) to do so. You only need to replace the image files. The webmanifest is generated dynamically based on the theme.config.ts. Mind that for the favicons, we have different ones for light vs. dark mode users (refering to their device, not the website). This makes sense for transparent or black/white icons. If you do not use this, also adjust [./src/components/head/base.astro](./src/components/head/base.astro) and drop the dark-mode icons. For the svg file, we recommend to handle light/dark mode directly in the svg code - you can check our [demo favicon.svg](./public/favicon.svg) for reference.
 5. Also replace the social preview images (og.png, x.png, structured-preview.png) in ./public/images/. They act as a general fallback, For articles, we auto-generate them from the article's main image.
-6. Adjust the [theme.config.ts](./theme.config.ts).
-  1. Set the base information first - like the site url, primary color, ... Everything is typed here - your IDE should be able to read the comments from the types to help you understand the respective settings.
-  2. Decide which languages you want to support, create a respective json file in the ./src/i18n/ directory, and import it in the config file. Adjust the "i18n" block respectively.
-  3. Load the expressiveCodeThemes you want to use. Pick two. 1 for light and 1 for dark mode. If you do not use dark mode, only pick one. Find the available options at the [shikijs repository](https://github.com/shikijs/textmate-grammars-themes/tree/main/packages/tm-themes).
-  4. If you are using the blog feature, specifying basic article settings would be next. This mainly defines the general layout and functionality. if you decide to use the image fallback feature, check the [demo fallback image](./src/images/content/articles-fallback.jpg) and replace it.
-  5. Set promotion slots, if you want to - you can adjust the content later. Drop it or set everything to `false`, if you do not need this at the moment.
-  6. Last but not least, define how the llms.txt file is created. As of today, it is not clearly stated whether this is really useful or not - however, Lighthouse has started testing for it, so it doesn't hurt.
+6. Adjust the [theme.config.ts](./theme.config.ts):
+
+- Set the base information first - like the site url, primary color, ... Everything is typed here - your IDE should be able to read-he comments from the types to help you understand the respective settings.
+- Decide which languages you want to support, create a respective json file in the ./src/i18n/ directory, and import it in the config file. Adjust the "i18n" block respectively.
+- Load the expressiveCodeThemes you want to use. Pick two. 1 for light and 1 for dark mode. If you do not use dark mode, only pick one. Find the available options at the [shikijs repository](https://github.com/shikijs/textmate-grammars-themes/tree/main/packages/tm-themes).
+- If you are using the blog feature, specifying basic article settings would be next. This mainly defines the general layout and functionality. if you decide to use the image fallback feature, check the [demo fallback image](./src/images/content/articles-fallback.jpg) and replace it.
+- Set promotion slots, if you want to - you can adjust the content later. Drop it or set everything to `false`, if you do not need this at the moment.
+- Last but not least, define how the llms.txt file is created. As of today, it is not clearly stated whether this is really useful or not - however, Lighthouse has started testing for it, so it doesn't hurt.
+
 7. If you want to use Webfonts, add them by installing via fontsource. The boilerplate comes with "Geist". You might want to uninstall this with `npm un @fontsource/geist` and install your own.
 8. Adjust the TailwindCSS base config at [./src/styles/tailwind.config.css](./src/styles/tailwind.config.css).
-  1. Adjust the font section. For example, replace "Geist" with your main font or even add new font styles.
-  2. Adjust the colors section (Branding and maybe Utility). We recommend to only adjust color hex codes and optionally add additional ones. If you remove lines, this breaks the demo content, which can be confusing - only do this at the very end when you replaced the demo content with your own!
-  3. Adjusting breakpoints could be a thing for design nerds.
-  4. Add anything else you already know you require. But, of course, you can also adjust things any time later.
+
+- Adjust the font section. For example, replace "Geist" with your main font or even add new font styles.
+- Adjust the colors section (Branding and maybe Utility). We recommend to only adjust color hex codes and optionally add additional ones. If you remove lines, this breaks the demo content, which can be confusing - only do this at the very end when you replaced the demo content with your own!
+- Adjusting breakpoints could be a thing for design nerds.
+- Add anything else you already know you require. But, of course, you can also adjust things any time later.
+
 9. If you already have some CSS you want to use, adjust/extend the [global.css](./src/styles/global.css) file to your needs. Also have a look at the other CSS files in the ./src/styles folder and adjust to your needs and taste. Our logic for styling goes as follows:
-  * TailwindCSS as base
-  * global.css to add custom rules and base styling. We also put things there, that are duplicated a lot and where the Tailwind classes should have a single source of truth (e.g. buttons).
-  * Additional CSS files for special pages (gets imported in addition on the page level). For example, we have a long-text-content.css, which is super useful to style boring things like the privacy policy page.
-  * Super custom stuff goes into the respective page or component; and on that level, as Tailwind classes or into its own scoped CSS block, if we would have a lot of class duplication otherwise (mind to set the [reference](https://tailwindcss.com/docs/functions-and-directives#reference-directive) to the tailwind.config.css file in those `<style>` blocks!).
+
+- TailwindCSS as base
+- global.css to add custom rules and base styling. We also put things there, that are duplicated a lot and where the Tailwind classes should have a single source of truth (e.g. buttons).
+- Additional CSS files for special pages (gets imported in addition on the page level). For example, we have a long-text-content.css, which is super useful to style boring things like the privacy policy page.
+- Super custom stuff goes into the respective page or component; and on that level, as Tailwind classes or into its own scoped CSS block, if we would have a lot of class duplication otherwise (mind to set the [reference](https://tailwindcss.com/docs/functions-and-directives#reference-directive) to the tailwind.config.css file in those `<style>` blocks!).
+
 10. Delete the subfolders in ./src/content/ and ./src/pages/ for those languages (e.g. "/fr"), which you do not want to support (see step 2). If you are only using 1 language, you can also drop the ./src/pages/[lang] folder as well as the [language-switcher.tsx](./src/components/layout/language-switcher.tsx) and [language-select.astro](./src/components/layout/language-select.astro) files in the components folder.
 11. Check what we put into the `<head>` for open graph and x at [./src/components/head/ogx.astro](./src/components/head/ogx.astro). Extend if you want to.
 12. Define your page structure and adjust the given demo structure under ./src/pages/ by creating a file (can be empty at first) per page. If you support >1 language, you should have a subfolder for that language as well as the generic [lang] folder. Pages, where i18n only happens via translated string go into [lang]. This keeps things simple. If you are changing a lot per language (different content) or have huge text blocks, put them in the explicit subfolder and hard-code the text.
-13. Check the layout files at ./src/layouts and also everything within ./src/components/layout. Adjust to match the general layout of your website.
-14. Already while building the layout, adjust the content of the json files in ./src/i18n/ to match your project.
-15. Adjust or delete the [map data file](./public/map/office.pmtiles), which is used at the demo contact page.
-16. Delete the demo content in ./src/images. Mind to keep the folder structure for the content! The images for your website should go into this images folder, images for articles and integrations into their respective subdirectoy. Fyi: Use ./public/images/ for images that need to be available via a clean and stable url to external pages/services/bots and **are not** about articles. Use ./public/data/ for public files you want to share - files used in articles go into the respective subfolder.
-17. Adjust the [`_headers`](./public/_headers) and [`_redirects`](./public/_redirects) files - only if on Cloudflare. Check their [documentation](https://developers.cloudflare.com/workers/static-assets/).
-18. Prepare for deployment. If going with Cloudflare, you can use the integrated wrangler/worker config. Adjust the [wrangler.jsonc](./wrangler.jsonc) to your needs and link your (usually) GitHub repository with a Cloudflare worker. Set environment variables for `CF_PURGE_API_KEY` and `CF_PURGE_ZONE_ID` and set `npm run purge:cloudflare` as command after build to clean the cache on each deployment.
+13. In the [astro.config.ts](./astro.config.ts), we went for static site generation. For some dynamic pages, we explicitly opted out of prerendering. Search for `export const prerender = false;` and adjust, if you only have a small amount of pages, where prerendering makes more sense than on-demand SSR. Also change, if your hosting solution only (!) supports static files.
+14. Adjust the navigation in the ./src/components/layout/nav folder.
+15. Check the other layout files at ./src/layouts and also everything within ./src/components/layout. Adjust to match the general layout of your website.
+16. Already while building the layout, adjust the content of the json files in ./src/i18n/ to match your project.
+17. Adjust or delete the [map data file](./public/map/office.pmtiles), which is used at the demo contact page.
+18. Delete the demo content in ./src/images. Mind to keep the folder structure for the content! The images for your website should go into this images folder, images for articles and integrations into their respective subdirectoy. Fyi: Use ./public/images/ for images that need to be available via a clean and stable url to external pages/services/bots and **are not** about articles. Use ./public/data/ for public files you want to share - files used in articles go into the respective subfolder.
+19. Run `npm run check:astro` and resolve all potential erros that popped up due to now missing links or stuff. This easily happens when you delete some demo content while you keep other demo files untouched.
+20. Adjust the [`_headers`](./public/_headers) and [`_redirects`](./public/_redirects) files - only if on Cloudflare. Check their [documentation](https://developers.cloudflare.com/workers/static-assets/).
+21. Prepare for deployment. If going with Cloudflare, you can use the integrated wrangler/worker config. Adjust the [wrangler.jsonc](./wrangler.jsonc) to your needs and link your (usually) GitHub repository with a Cloudflare worker. Set environment variables for `CF_PURGE_API_KEY` and `CF_PURGE_ZONE_ID` and set `npm run purge:cloudflare` as command after build to clean the cache on each deployment. If you do this, you should consider setting up a rule on Cloudflare to cache all requests and not only static files. Also mind to activate Media > Images > Transformations in the Cloudflare dashboard for your Zone/Worker!
 
 ### Additional things you might want to check
 

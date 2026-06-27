@@ -76,7 +76,7 @@ const showTopBanner = (themeConfig.promotions?.topBanner && header?.showTopBanne
     <HeadHrefLang {locale} {noi18n} {collection} contentId={articleEntry.id} />
     <HeadOgX {locale} {title} {description} {ogTitle} {ogImage} {xImage} />
     <!-- Structured Data -->
-    <ArticleStructuredData layoutTitle={title} layoutDescription={description} articleEntry={articleEntry} />
+    <ArticleStructuredData layoutTitle={title} layoutDescription={description} articleEntry={articleEntry} {locale} />
     <!-- Transitions -->
     <ClientRouter />
   </head>

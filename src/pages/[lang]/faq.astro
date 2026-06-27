@@ -37,7 +37,7 @@ const categories = Array.from(
 ).sort((a, b) => a.localeCompare(b, locale));
 ---
 
-<Layout title={t('pages.faq.title')} description={t('pages.faq.description')} {locale}>
+<Layout title={t('pages.faq.title')} description={t('pages.faq.description')} {locale} schemaType="FAQPage">
   <Headline text={t('pages.faq.title')} class="pb-10" />
 
   <div class="mb-8 flex flex-col gap-4 sm:flex-row" role="search">
