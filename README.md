@@ -274,6 +274,8 @@ Third, some things are configurable via env variables at build time.
 - ROBOTS: Would override the global default robots setting. Useful for dev environments. Settings on the page level would still override this again!
 - CF_PURGE_API_KEY and CF_PURGE_ZONE_ID: Required if you want to use the Cloudflare purge script when hosting on Cloudflare workers.
 
+<br />
+
 ### Step by Step Guide
 
 1. If you did not use the `create stardrive` command to create the project, check the [Trimming Guide](./.ai/TRIMMING_GUIDE.md) to remove those features you do not need first! The guide is built for AI agents, but can also be used for manual actions.
@@ -315,8 +317,11 @@ Third, some things are configurable via env variables at build time.
 17. Adjust or delete the [map data file](./public/map/office.pmtiles), which is used at the demo contact page.
 18. Delete the demo content in ./src/images. Mind to keep the folder structure for the content! The images for your website should go into this images folder, images for articles and integrations into their respective subdirectoy. Fyi: Use ./public/images/ for images that need to be available via a clean and stable url to external pages/services/bots and **are not** about articles. Use ./public/data/ for public files you want to share - files used in articles go into the respective subfolder.
 19. Run `npm run check:astro` and resolve all potential erros that popped up due to now missing links or stuff. This easily happens when you delete some demo content while you keep other demo files untouched.
-20. Adjust the [`_headers`](./public/_headers) and [`_redirects`](./public/_redirects) files - only if on Cloudflare. Check their [documentation](https://developers.cloudflare.com/workers/static-assets/).
+20. Adjust the [`_headers`](./public/_headers) and [`_redirects`](./public/_redirects) files - only if on Cloudflare. Check their [documentation](https://developers.cloudflare.com/workers/static-assets/). 
+If your project is a migration from an existing website, when using Cloudflare, adjust ./public/\_redirects to redirect old paths to the new structure. If not using Cloudlfare, set up your hosting setup accordingly.
 21. Prepare for deployment. If going with Cloudflare, you can use the integrated wrangler/worker config. Adjust the [wrangler.jsonc](./wrangler.jsonc) to your needs and link your (usually) GitHub repository with a Cloudflare worker. Set environment variables for `CF_PURGE_API_KEY` and `CF_PURGE_ZONE_ID` and set `npm run purge:cloudflare` as command after build to clean the cache on each deployment. If you do this, you should consider setting up a rule on Cloudflare to cache all requests and not only static files. Also mind to activate Media > Images > Transformations in the Cloudflare dashboard for your Zone/Worker!
+
+<br />
 
 ### Additional things you might want to check
 

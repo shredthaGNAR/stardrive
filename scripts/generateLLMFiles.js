@@ -428,7 +428,6 @@ async function generateLLMFiles() {
     out += `${hostname}`;
   }
   out += `\n\n`;
-  out += `Last updated on: ${new Date().toISOString()}\n\n`;
 
   // ---- Intro quote ----
   if (llms.intro && llms.intro.trim()) {
@@ -440,15 +439,16 @@ async function generateLLMFiles() {
     out += `${quoted}\n\n`;
   }
 
+  // ---- Last updated timestamp ----
+  out += `Last updated on: ${new Date().toISOString()}\n\n`;
+
   // ---- Languages ----
   out += `## Languages\n\n`;
-  const defaultName = languages[defaultLocale] || defaultLocale;
-  out += `Default: [${defaultName}](${localeHomeUrl(site, defaultLocale, defaultLocale, prefixDefaultLocale)})\n\n`;
-  out += `Available:\n`;
   for (const code of locales) {
     const name = languages[code] || code;
     const url = localeHomeUrl(site, code, defaultLocale, prefixDefaultLocale);
-    out += `- [${name}](${url})\n`;
+    const suffix = code === defaultLocale ? ': default' : '';
+    out += `- [${name}](${url})${suffix}\n`;
   }
   out += `\n`;
 
@@ -483,10 +483,10 @@ async function generateLLMFiles() {
       const meta = getPageMetaFromFile(p.filePath);
       const title = meta.title || p.urlPath;
       const url = `${site}${p.urlPath}`;
-      out += `### ${title}\n`;
-      if (meta.description) out += `${meta.description}\n`;
-      out += `URL: ${url}\n\n`;
+      const details = meta.description ? `: ${meta.description}` : '';
+      out += `- [${title}](${url})${details}\n`;
     }
+    out += `\n`;
   }
 
   // ---- FAQ ----
@@ -503,10 +503,11 @@ async function generateLLMFiles() {
     out += `## FAQ\n\n`;
     for (const it of selectedFaq) {
       const question = it.data.question || it.slug;
-      out += `### ${question}\n`;
-      if (it.body) out += `${it.body}\n`;
-      out += `\n`;
+      const url = `${site}/faq#${it.slug}`;
+      const answer = it.body ? `: ${it.body.replace(/\s+/g, ' ').trim()}` : '';
+      out += `- [${question}](${url})${answer}\n`;
     }
+    out += `\n`;
   }
 
   // ---- Articles ----
@@ -517,10 +518,10 @@ async function generateLLMFiles() {
       const title = it.data.title || it.slug;
       const excerpt = it.data.excerpt || '';
       const url = `${site}${articleUrlPath(it, defaultLocale, prefixDefaultLocale)}`;
-      out += `### ${title}\n`;
-      if (excerpt) out += `${excerpt}\n`;
-      out += `URL: ${url}\n\n`;
+      const details = excerpt ? `: ${excerpt}` : '';
+      out += `- [${title}](${url})${details}\n`;
     }
+    out += `\n`;
   }
 
   const outPath = path.join(distDir, `llms.txt`);

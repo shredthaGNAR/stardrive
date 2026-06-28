@@ -23,11 +23,11 @@ Stardrive ships as a fully-populated demo site - the same codebase that powers [
 
 Delete the following without asking:
 
-- `./scripts/syncVersion.js`
 - `./SECURITY.md`
 - `./CHANGELOG.md`
 - `./repository-header.png`
 - `./.github` (whole directory)
+- `./scripts/syncVersion.js`
 
 In the [package.json](../package.json), remove the "prebuild" script, the "sync-version" script, and the `npm run sync-version && ` from the "fix" script.
 
