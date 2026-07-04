@@ -23,7 +23,8 @@ const t = useTranslations(locale);
     <div class="flex flex-col items-start gap-5 sm:max-w-[350px]">
       <div class="w-auto max-w-[200px]">
         <a href={getLocaleUrl('/', locale)} class="block w-full select-none">
-          <Logo class="h-auto w-full drop-shadow" />
+          <p class="sr-only hidden" id="siteNameLogo">{themeConfig.name}</p>
+          <Logo class="h-auto w-full drop-shadow" aria-labelledby="siteNameLogo" />
         </a>
       </div>
       <div class="flex flex-col gap-1 text-left text-balance text-stone-50">
