@@ -4,6 +4,7 @@ import { getLocaleUrl } from "@utils/i18n";
 import MainNav from "@components/layout/nav/main-nav.astro";
 import Logo from '@images/logo.svg';
 import LogoWhite from '@images/logo-white.svg';
+import { themeConfig } from '~/theme.config';
 
 interface Props {
   locale: string;
@@ -40,14 +41,15 @@ const { locale, button, tabIndex = 0, shrink = true, isHome, ctaButton, github, 
         {button.text}
       </a>
     ) : isHome ? (
-      <span>
+      <span aria-hidden="true">
         <Logo class:list={['header-logo-dark h-10 w-fit touch-none select-none', logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
         <LogoWhite class:list={['touch-none^ header-logo-white h-10 w-fit select-none', logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'hidden dark:block']} />
       </span>
     ) : (
       <a href={getLocaleUrl('/', locale)} class="block w-fit select-none" tabindex={tabIndex}>
-        <Logo class:list={['header-logo-dark h-10 w-fit', logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
-        <LogoWhite class:list={['header-logo-white h-10 w-fit', logoTheme === 'light' ? 'hidden' : logoTheme === 'dark' ? 'block' : 'hidden dark:block']} />
+        <p class="sr-only hidden" id="siteNameLogo">{themeConfig.name}</p>
+        <Logo aria-labelledby="siteNameLogo" class:list={['header-logo-dark h-10 w-fit', logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
+        <LogoWhite aria-labelledby="siteNameLogo" class:list={['header-logo-white h-10 w-fit', logoTheme === 'light' ? 'hidden' : logoTheme === 'dark' ? 'block' : 'hidden dark:block']} />
       </a>
     )
   }

@@ -118,14 +118,12 @@ const isOverlayScroll = !fixed && !!overlay && !isClose;
     _bannerOffsetHandler();
   }
 
-  if (document.querySelector('[data-top-banner-offset]')) {
-    setupTopBannerOffset();
-    document.addEventListener('astro:page-load', setupTopBannerOffset);
-    if (_bannerMql) {
-      const onMqlChange = () => setupTopBannerOffset();
-      if (typeof _bannerMql.addEventListener === 'function') {
-        _bannerMql.addEventListener('change', onMqlChange);
-      }
+  setupTopBannerOffset();
+  document.addEventListener('astro:page-load', setupTopBannerOffset);
+  if (_bannerMql) {
+    const onMqlChange = () => setupTopBannerOffset();
+    if (typeof _bannerMql.addEventListener === 'function') {
+      _bannerMql.addEventListener('change', onMqlChange);
     }
   }
 </script>
