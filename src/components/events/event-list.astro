@@ -58,7 +58,7 @@ const entriesByMonth = months.map((month) => ({
                     </span>
                     {entry.data.description && <span class="xs:block mt-4 hidden text-sm font-normal sm:text-base">{entry.data.description}</span>}
                   </span>
-                  <span class="z-40 m-4 hidden self-start lg:block" onclick="this.parentElement.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();},{capture:true});">
+                  <span class="atcb-wrapper z-40 m-4 hidden self-start lg:block">
                     <AddToCalendarButton
                       name={entry.data.title}
                       description={entry.data.description}
@@ -89,3 +89,22 @@ const entriesByMonth = months.map((month) => ({
     ))
   }
 </div>
+
+<script>
+  // The add-to-calendar-button web component sits inside an <a> linking to the event detail page.
+  // Stop any click that originates from the button (or its wrapper) from bubbling up to the anchor
+  // so that opening the calendar overlay does not navigate away.
+  function setupAtcbInterception() {
+    document.querySelectorAll<HTMLElement>('.atcb-wrapper').forEach((wrapper) => {
+      if (wrapper.dataset.atcbIntercepted === '1') return;
+      wrapper.dataset.atcbIntercepted = '1';
+      wrapper.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }, { capture: true });
+    });
+  }
+
+  setupAtcbInterception();
+  document.addEventListener('astro:page-load', setupAtcbInterception);
+</script>
