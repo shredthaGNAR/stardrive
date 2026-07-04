@@ -35,6 +35,11 @@
     @apply mt-6 mb-4 text-xl font-bold;
   }
 
+  .markdown-content p + h4,
+  .markdown-content .expressive-code + h4 {
+    @apply mt-10;
+  }
+
   .markdown-content h5 {
     @apply mt-6 mb-3 text-lg font-bold;
   }

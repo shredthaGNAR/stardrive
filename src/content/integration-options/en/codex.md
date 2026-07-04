@@ -7,7 +7,6 @@ url: 'https://openai.com/codex/'
 logo:
   file: '@images/content/integration/codex.webp'
   alt: 'OpenAI Codex Logo'
-categories: ['agents']
 ---
 
 OpenAI Codex is OpenAI's agentic coding tool that runs directly in your terminal. It understands your entire codebase, executes multi-step tasks autonomously, and interacts with files, tests, and version control - all through natural language. Powered by OpenAI's latest models, it is designed for developers who want AI assistance that goes beyond simple code completion and can handle complex, real-world engineering workflows end to end.

@@ -12,8 +12,13 @@ import { themeConfig } from '../../theme.config';
 // See https://docs.astro.build/en/guides/upgrade-to/v5/#removed-support-for-dynamic-prerender-values-in-routes
 const onDemandRoutes: Record<string, string> = {
   'blog/[...article].astro': 'articles',
-  'events/[...event].astro': 'events',
+  'events/detail/[...event].astro': 'events',
+  // the events overview/list route is only forced to SSR when events are pulled
+  // from the Add to Calendar PRO API (it stays prerendered for markdown events).
+  'events/[...year].astro': 'events_overview',
   'integration/[type]/[item].astro': 'integration_options',
+  // Dynamic events sitemap - only SSR when events are pulled from the API.
+  'dynamic-events-sitemap.xml.ts': 'dynamic_events_sitemap',
 };
 const onDemandCollections = new Set<string>(themeConfig.onDemandRenderedCollections ?? []);
 export const setOnDemandPrerender: AstroIntegration = {
@@ -23,7 +28,13 @@ export const setOnDemandPrerender: AstroIntegration = {
       // Match both the default-locale (`src/pages/blog/...`) and the localized
       // (`src/pages/[lang]/blog/...`) variants of each collection route.
       const collection = Object.entries(onDemandRoutes).find(([suffix]) => route.component.endsWith(suffix))?.[1];
-      if (collection && onDemandCollections.has(collection)) {
+      const dynamicEvents = Boolean(themeConfig.dynamicEvents?.pullFromAddToCalendarPro);
+      // The events overview list is prerendered for markdown events but must be SSR when events come from the API so new entries appear without a rebuild.
+      if (collection === 'events_overview' || collection === 'dynamic_events_sitemap') {
+        if (dynamicEvents) route.prerender = false;
+        return;
+      }
+      if (collection && (onDemandCollections.has(collection) || (collection === 'events' && dynamicEvents))) {
         route.prerender = false;
       }
     },
@@ -53,7 +64,7 @@ interface OnDemandCollectionDescriptor {
 
 const collectionDescriptors = new Map<string, OnDemandCollectionDescriptor>([
   ['articles', { dir: 'articles', segment: 'blog', withType: false }],
-  ['events', { dir: 'events', segment: 'events', withType: false }],
+  ['events', { dir: 'events', segment: 'events/detail', withType: false }],
   ['integration_options', { dir: 'integration-options', segment: 'integration', withType: true }],
 ]);
 
@@ -101,8 +112,14 @@ export function getOnDemandSitemapPages(): string[] {
   const site = themeConfig.site.replace(/\/+$/, '');
   const { defaultLocale, locales } = themeConfig.i18n;
   const urls: string[] = [];
+  const dynamicEvents = Boolean(themeConfig.dynamicEvents?.pullFromAddToCalendarPro);
 
   for (const collection of onDemandCollections) {
+    // When events are pulled from the Add to Calendar PRO API, the sitemap
+    // URLs are generated on-demand by dynamic-events-sitemap.ts (which hits
+    // the API), not from local markdown files.
+    if (collection === 'events' && dynamicEvents) continue;
+
     const descriptor = collectionDescriptors.get(collection);
     if (!descriptor) continue;
 

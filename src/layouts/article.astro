@@ -38,8 +38,7 @@ interface Props {
     /** Force hide or show the top banner */
     showTopBanner?: boolean;
   };
-  /** Force hide or show the footer banner */
-  showFooterBanner?: boolean;
+  showFooterBanner?: boolean; // Force hide or show the footer banner
   robots?: string;
   isError?: boolean;
   imgUrl?: string;
@@ -83,9 +82,9 @@ const showTopBanner = (themeConfig.promotions?.topBanner && header?.showTopBanne
   <body>
     {showTopBanner ? <TopBanner {locale} /> : null}
     <div class="relative w-full">
-      {header?.hidden !== true && <Header {locale} button={headerButton} github="https://github.com/Peltmonger/stardrive" ctaButton={{text:t('labels.signup'),href:getLocaleUrl('signup', locale)}} fixed={header?.fixed} overlay={header?.overlay} scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} hasTopBanner={showTopBanner} />}
+      {header?.hidden !== true && <Header {locale} button={headerButton} github="https://github.com/Peltmonger/stardrive" ctaButton={{ text: t('labels.signup'), href: getLocaleUrl('signup', locale) }} fixed={header?.fixed} overlay={header?.overlay} scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} hasTopBanner={showTopBanner} />}
       <main role="main">
-        <div class="container mx-auto pt-8 md:pt-10 lg:pt-12 pb-10 md:pb-14 lg:pb-16">
+        <div class="container mx-auto pt-8 pb-10 md:pt-10 md:pb-14 lg:pt-12 lg:pb-16">
           <slot />
         </div>
       </main>

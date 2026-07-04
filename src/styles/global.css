@@ -61,6 +61,14 @@
     @apply mt-2.5;
   }
 
+  code {
+    @apply break-all;
+  }
+
+  .expressive-code pre > code {
+    @apply break-normal;
+  }
+
   h1,
   h2,
   h3 {
@@ -74,11 +82,11 @@
 
 @layer components {
   .btn-subtle {
-    @apply hover:border-primary hover:bg-primary ring-primary flex cursor-pointer items-center gap-2 border border-stone-300 bg-stone-200 fill-current p-1.5 font-semibold whitespace-nowrap text-stone-950 no-underline shadow select-none visited:text-start focus-within:ring-2 hover:text-white hover:shadow-lg focus:outline-0 dark:border-stone-100 dark:bg-stone-300;
+    @apply hover:border-primary hover:bg-primary ring-primary flex cursor-pointer items-center gap-2 border border-stone-300 bg-stone-200 fill-current p-1.5 font-semibold whitespace-nowrap text-stone-950 no-underline shadow ring-offset-white select-none visited:text-start focus-within:ring-2 focus-within:ring-offset-2 hover:text-white hover:shadow-lg focus:outline-0 dark:border-stone-100 dark:bg-stone-300 dark:ring-offset-black;
   }
 
   .btn-primary {
-    @apply bg-primary hover:bg-primary-light text-primary-contrast ring-primary-light hover:text-primary-light-contrast flex cursor-pointer items-center gap-2 rounded fill-current px-4 py-2 font-semibold whitespace-nowrap no-underline shadow select-none visited:text-start focus-within:ring-2 hover:shadow-lg focus:outline-0;
+    @apply bg-primary hover:bg-primary-light text-primary-contrast ring-primary-light hover:text-primary-light-contrast flex cursor-pointer items-center gap-2 rounded fill-current px-4 py-2 font-semibold whitespace-nowrap no-underline shadow ring-offset-white select-none visited:text-start focus-within:ring-2 focus-within:ring-offset-2 hover:shadow-lg focus:outline-0 dark:ring-offset-black;
   }
 
   .btn-primary-small {
@@ -102,7 +110,7 @@
   }
 
   .select-primary {
-    @apply ring-primary bg-no-repeat w-full max-w-xl min-w-50 appearance-none rounded select-none pr-9 rounded-tr-xl border cursor-pointer border-stone-400 bg-white p-2 text-stone-900 placeholder-stone-400 focus-within:ring-2 hover:shadow focus:shadow-lg focus:outline-0 dark:bg-stone-200 dark:placeholder-stone-500;
+    @apply ring-primary w-full max-w-xl min-w-50 cursor-pointer appearance-none rounded rounded-tr-xl border border-stone-400 bg-white bg-no-repeat p-2 pr-9 text-stone-900 placeholder-stone-400 select-none focus-within:ring-2 hover:shadow focus:shadow-lg focus:outline-0 dark:bg-stone-200 dark:placeholder-stone-500;
     background-position: right 10px center;
     background-size: 12px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%2378716c' d='M6 8.825a.5.5 0 01-.354-.146l-4-4a.5.5 0 11.708-.708L6 7.618l3.646-3.647a.5.5 0 01.708.708l-4 4A.5.5 0 016 8.825z'/%3E%3C/svg%3E");
@@ -110,7 +118,7 @@
 
   input[type='search']::-webkit-search-cancel-button {
     /* Custom styling for the search input's clear button (the "X" that appears when text is entered). */
-    @apply w-4 h-4 bg-no-repeat cursor-pointer appearance-none;
+    @apply h-4 w-4 cursor-pointer appearance-none bg-no-repeat;
     background-size: contain;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2378716c'%3E%3Cpath d='M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z'/%3E%3C/svg%3E");
   }

@@ -13,9 +13,8 @@ const locale = Astro.props.locale || localeFromPath || defaultLocale;
 const t = useTranslations(locale);
 ---
 
-<Layout title={t('pages.404.title')} isError {locale} header={{closeIcon:true, showTopBanner: false}} showFooterBanner={false}>
+<Layout title={t('pages.404.title')} isError {locale} header={{ closeIcon: true, showTopBanner: false }} showFooterBanner={false}>
   <Headline text={t('pages.404.title')} class="mt-20" />
 
-  <div class="container min-h-48 pt-8 mb-20 font-semibold whitespace-pre-wrap">{t('pages.404.message')}</div>
-
+  <div class="container mb-20 min-h-48 pt-8 font-semibold whitespace-pre-wrap">{t('pages.404.message')}</div>
 </Layout>

@@ -2,11 +2,11 @@
 publishDate: 2026-06-01
 updatedDate: 2026-06-04
 draft: false
-question: '¿Tengo que hospedar en Cloudflare?'
+question: '¿Tengo que alojarlo en Cloudflare?'
 category: 'technical'
 ---
 
-**No, puedes hospedar Stardrive donde quieras.**
+**No, puedes alojar Stardrive donde quieras.**
 
 Recomendamos Cloudflare porque Astro y Stardrive están optimizados para su plataforma Workers, y el `wrangler.jsonc` que incluimos junto con el script de purga de caché hacen que esa configuración sea especialmente sencilla.
 

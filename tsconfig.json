@@ -10,6 +10,7 @@
       "~types/*": ["./types/*"],
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
+      "@data/*": ["./src/data/*"],
       "@styles/*": ["./src/styles/*"],
       "@scripts/*": ["./src/scripts/*"],
       "@images/*": ["./src/images/*"],

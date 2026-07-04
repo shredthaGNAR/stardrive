@@ -17,6 +17,7 @@ image:
 Únete a pingüinos de toda la Antártida para un día de celebración, conexión y construcción de comunidad.
 
 **Qué esperar:**
+
 - **Mañana**: Desayuno comunitario y ceremonia de bienvenida
 - **Mediodía**: Actividades de team building y juegos en el hielo
 - **Tarde**: Sesiones de narración de historias e intercambio cultural

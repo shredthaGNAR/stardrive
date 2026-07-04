@@ -19,6 +19,7 @@ image:
 Únete a las mentes más brillantes de la South Pole Penguin Nation (SPPN) para un día completo de charlas, talleres y sesiones prácticas sobre lo último en tecnología antártica.
 
 Temas incluidos:
+
 - Arquitectura de servidores resistente al hielo
 - Protocolos de seguridad Fishnet
 - El futuro de la IA impulsada por pingüinos

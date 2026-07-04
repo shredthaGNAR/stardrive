@@ -1,20 +1,24 @@
 import type { ThemeConfig } from './types/theme-config.d.ts';
 
 // language files from ./src/i18n
-import enStrings from './src/i18n/en.json';
-import deStrings from './src/i18n/de.json';
-import frStrings from './src/i18n/fr.json';
-import esStrings from './src/i18n/es.json';
+// The `with { type: 'json' }` import attribute is required so this file can also be
+// imported from a plain ESM context (e.g. `ec.config.mjs`, which Node loads directly).
+import enStrings from './src/i18n/en.json' with { type: 'json' };
+import deStrings from './src/i18n/de.json' with { type: 'json' };
+import frStrings from './src/i18n/fr.json' with { type: 'json' };
+import esStrings from './src/i18n/es.json' with { type: 'json' };
 
 export const themeConfig: ThemeConfig = {
-  site: import.meta.env.SITE_OVERRIDE || 'https://astro-stardrive.com',
+  // `import.meta.env?.` is guarded because this file is also imported from `ec.config.mjs`,
+  // which Node loads as plain ESM where `import.meta.env` is not defined (only Vite injects it).
+  site: import.meta.env?.SITE_OVERRIDE || 'https://astro-stardrive.com',
   primaryColor: '#f26430', // mind to also update the Tailwind config if you change this!
   themeColor: '#50168a',
   generateWebmanifest: true,
   name: 'Astro StarDrive',
   shortName: 'StarDrive',
   darkMode: true,
-  robots: import.meta.env.ROBOTS || 'index, follow',
+  robots: import.meta.env?.ROBOTS || 'index, follow',
   xHandle: 'jekuer',
 
   // Structured data
@@ -62,7 +66,10 @@ export const themeConfig: ThemeConfig = {
   },
 
   // md(x) code block rendering
-  expressiveCodeThemes: ['github-dark', 'github-light'],
+  expressiveCodeThemes: {
+    light: 'github-light',
+    dark: 'github-dark',
+  },
 
   // content/article settings
   articles: {
@@ -117,7 +124,17 @@ export const themeConfig: ThemeConfig = {
   },
 
   // for the purpose of this demo, we render intergration options on-demand instead of prerendering them.
-  onDemandRenderedCollections: ['integration_options'],
+  onDemandRenderedCollections: ['integration_options', 'events'],
+
+  // you can also dynamically integrate events from your Add to Calendar PRO account (https://add-to-calendar-pro.com/), having your API key set as environment variable ADD_TO_CALENDAR_PRO_API_KEY.
+  dynamicEvents: {
+    pullFromAddToCalendarPro: false,
+    filterBy: {
+      from: '',
+      to: '',
+      group: '',
+    },
+  },
 
   // LLM and coding assistant settings
   llms: {

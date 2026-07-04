@@ -7,7 +7,6 @@ url: 'https://code.claude.com/'
 logo:
   file: '@images/content/integration/claude_code.svg'
   alt: 'Claude Code Logo'
-categories: ['agents']
 ---
 
 Claude Code es la herramienta oficial de codificación agéntica de Anthropic que se ejecuta directamente en tu terminal. Comprende toda tu base de código, ejecuta tareas de múltiples pasos de forma autónoma e interactúa con archivos, pruebas y control de versiones, todo mediante lenguaje natural. Desarrollada sobre el modelo de IA Claude, está pensada para desarrolladores que buscan una asistencia de IA que vaya más allá del simple completado de código y que pueda gestionar flujos de trabajo de ingeniería complejos y reales de principio a fin.

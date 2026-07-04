@@ -17,14 +17,15 @@ image:
 Die Antarctic Space Agency (ASA) lädt alle Pinguine zu einer ganzen Woche voller Innovation, Forschungspräsentationen und kollaborativer Workshops ein.
 
 **Tägliche Themen:**
+
 - **Montag**: Weltraumforschung & Raketentechnik
 - **Dienstag**: Meeresbiologie & Fischtechnologie
 - **Mittwoch**: Klimawissenschaft & Eisforschung
 - **Donnerstag**: KI, Robotik & Automatisierung
 - **Freitag**: Gemeinschaft & Zusammenarbeit
 
-Mit Keynote-Speakern von führenden Forschungsstationen, Poster-Sessions und einer großen Innovation-Showcase am Freitagabend.
+Mit Keynote-Speakern von führenden Forschungsstationen, Poster-Sessions und einem großen Innovations-Showcase am Freitagabend.
 
-Frühbucher-Registrierung öffnet im Januar 2027.
+Die Frühbucher-Registrierung öffnet im Januar 2027.
 
 🐧🔬🚀

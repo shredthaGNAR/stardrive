@@ -14,9 +14,10 @@ image:
 
 **Der Community Day ist da!**
 
-Kommt zu Pinguinen aus der gesamten Antarktis für einen Tag voller Feier, Verbindung und Gemeinschaftsbildung.
+Schließt euch Pinguinen aus der gesamten Antarktis für einen Tag voller Feier, Verbindung und Gemeinschaftsbildung an.
 
 **Was euch erwartet:**
+
 - **Morgen**: Gemeinschaftsfrühstück und Begrüßungszeremonie
 - **Mittag**: Teambuilding-Aktivitäten und Eisspiele
 - **Nachmittag**: Geschichtenerzählen und kultureller Austausch
@@ -24,6 +25,6 @@ Kommt zu Pinguinen aus der gesamten Antarktis für einen Tag voller Feier, Verbi
 
 Dies ist ein Tag, um unsere vielfältige Pinguin-Gemeinschaft zu feiern, Geschichten zu teilen und die Bindungen zu stärken, die uns gemeinsam stärker machen.
 
-Alle Pinguine willkommen. Familien werden ermutigt teilzunehmen. Kostenlose Fischsnacks werden bereitgestellt!
+Alle Pinguine sind willkommen. Familien werden ermutigt teilzunehmen. Kostenlose Fischsnacks werden bereitgestellt!
 
 🐧🎉🌟

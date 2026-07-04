@@ -6,7 +6,7 @@ question: '¿Por qué Astro?'
 category: 'general'
 ---
 
-**Astro es, a día de hoy, uno de los frameworks frontend más performantes y estables, y a la vez más flexibles que existen.**
+**Astro es, a día de hoy, uno de los frameworks frontend con mejor rendimiento y más estables, y a la vez más flexibles que existen.**
 
 Por defecto no envía nada de JavaScript, lo que significa que tu sitio se mantiene súper rápido, accesible y SEO-friendly sin esfuerzo adicional.
 

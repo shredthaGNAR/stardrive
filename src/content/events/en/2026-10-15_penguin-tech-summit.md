@@ -20,6 +20,7 @@ image:
 Join the brightest minds of the South Pole Penguin Nation (SPPN) for a full day of talks, workshops, and hands-on sessions about the latest in Antarctic technology.
 
 Topics include:
+
 - Ice-resistant server architecture
 - Fishnet security protocols
 - The future of penguin-powered AI

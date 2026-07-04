@@ -1,8 +1,11 @@
 # Trimming Guide - Instructions
 
-You are an AI agent executing the trimming of a freshly cloned Stardrive boilerplate. Your task is to bring this repository to a clean starting point for the user's own project by removing demo content and features they do not need.
+You are an AI agent executing the trimming of a freshly cloned Stardrive boilerplate.
+Your task is to bring this repository to a clean starting point for the user's own project by removing demo content and features they do not need.
 
 This applies when the user cloned Stardrive **directly** (e.g. via `git clone`) instead of using the [`create-stardrive`](https://www.npmjs.com/package/create-stardrive) scaffolding tool. `create-stardrive` performs these removals automatically; here you do them manually.
+
+Only follow this guide on a rather new project that was not already been worked on!
 
 ## How to execute
 
@@ -64,16 +67,12 @@ Ask the user whether they want to keep the FAQ (also uses content collections). 
 - `./src/content/faq-answers`
 - `./src/pages/faq.astro`
 - `./src/pages/[lang]/faq.astro`
-- `./src/components/faq-list.astro`
+- `./src/components/faq/`
 
-Then edit `./src/content.config.ts`:
+Then edit:
 
-- remove the `const faq_answers` declaration
-- remove `faq_answers` from the export statement at the bottom
-
-Then edit `./theme.config.ts`:
-
-- remove `addFAQ` from the `llms` settings.
+- `./src/content.config.ts` - remove the `const faq_answers` declaration and `faq_answers` from the export statement at the bottom.
+- `./theme.config.ts` - remove `addFAQ` from the `llms` settings.
 
 ## Step 4 - Integration catalog feature (optional)
 
@@ -83,31 +82,30 @@ Ask the user whether they want to keep the integration catalog (also uses conten
 - `./src/content/integration-options`
 - `./src/pages/integration`
 - `./src/pages/[lang]/integration`
-- `./src/components/integration-list.astro`
+- `./src/components/integration/`
 
-Then edit `./src/content.config.ts`:
+Then edit:
 
-- remove the `const integration_options` declaration
-- remove `integration_options` from the export statement at the bottom
+- `./src/content.config.ts` - remove the `const integration_options` declaration and `integration_options` from the export statement at the bottom
 
 ## Step 5 - Events feature (optional)
 
 Ask the user whether they want to keep the events (built on Astro's content collections). If they do **not** want it, remove:
 
+- `./src/utils/event-bridge.ts`
 - `./src/styles/events.css`
 - `./src/pages/events`
 - `./src/pages/[lang]/events`
-- `./src/components/event-list.astro`
+- `./src/pages/dynamic-events-sitemap.xml.ts`
+- `./src/components/events/`
 - `./src/content/events`
 - `./src/images/content/events`
 
 Then edit:
 
 - `./src/content.config.ts` - remove the `const events` declaration and remove `events` from the export statement at the bottom.
-
-Then edit `./theme.config.ts`:
-
-- remove `addEvents` from the `llms` settings.
+- `./theme.config.ts` - remove the `dynamicEvents` section and `addEvents` from the `llms` settings.
+- `./astro.config.ts` - remove the `customSitemaps:` line in the i18n block.
 
 ## Step 6 - Navigation cleanup (always, if anything was removed)
 

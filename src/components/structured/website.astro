@@ -1,5 +1,6 @@
 ---
 import { getCleanLocaleUrl } from "@utils/i18n";
+import { themeConfig } from '~/theme.config';
 
 interface Props {
   title: string;
@@ -30,6 +31,7 @@ const publisher = Astro.props.publisher ? { "@context": "https://schema.org", ..
 
 const structuredData = {
   "@context": "https://schema.org",
+  "@id": `${themeConfig.site}/#website`,
   "@type": "WebSite",
   name: title,
   ...(description && { about: description }),

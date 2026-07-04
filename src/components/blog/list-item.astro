@@ -32,15 +32,15 @@ const imageFile = entry.data.image?.file ? entry.data.image.file : (!entry.data.
 
 <div>
   <a href={getLocaleUrl('blog/' + entry.id.split('/').slice(-1)[0], locale)} class:list={[baseCardClasses, !wide && 'sm:flex-col']}>
-    <span class:list={['xs:w-36 relative block h-auto w-28 shrink-0 rounded-l-lg overflow-clip border border-r-0', wide ? 'sm:w-56 md:max-h-60 md:w-80 lg:w-[400px]' : 'sm:h-40 sm:w-full sm:rounded-t-lg sm:rounded-bl-none sm:border-r sm:border-b-0', featured ? 'border-primary' : 'border-stone-400 dark:border-stone-700 group-hover:border-primary']}>
+    <span class:list={['xs:w-36 relative block h-auto w-28 shrink-0 overflow-clip rounded-l-lg border border-r-0', wide ? 'sm:w-56 md:max-h-60 md:w-80 lg:w-[400px]' : 'sm:h-40 sm:w-full sm:rounded-t-lg sm:rounded-bl-none sm:border-r sm:border-b-0', featured ? 'border-primary' : 'group-hover:border-primary border-stone-400 dark:border-stone-700']}>
       {
         imageFile ? (
           <Image src={imageFile} alt={entry.data.image?.alt ?? ''} class={baseImageClasses} transition:name={!noTransition ? 'image-' + entry.id : ''} draggable="false" priority />
         ) : entry.data.image?.url ? (
           <Image src={entry.data.image.url} alt={entry.data.image?.alt ?? ''} class={baseImageClasses} transition:name={!noTransition ? 'image-' + entry.id : ''} draggable="false" priority inferSize />
         ) : (
-          <span class:list={['flex h-full w-full items-center justify-center p-8', (!wide && themeConfig.articles?.textOverImage) && 'sm:hidden']}>
-            <Icon name="heroicons:document-text" class='h-12 w-12 lg:h-16 lg:w-16 opacity-70' />
+          <span class:list={['flex h-full w-full items-center justify-center p-8', !wide && themeConfig.articles?.textOverImage && 'sm:hidden']}>
+            <Icon name="heroicons:document-text" class="h-12 w-12 opacity-70 lg:h-16 lg:w-16" />
           </span>
         )
       }
@@ -48,27 +48,27 @@ const imageFile = entry.data.image?.file ? entry.data.image.file : (!entry.data.
       <span
         class:list={[
           'absolute inset-0 flex items-end rounded-l-lg px-3 py-2 transition-all group-hover:bg-linear-to-l',
-          'from-stone-100 via-stone-100/70 dark:from-stone-900 dark:via-stone-900/70 to-transparent',
-          (imageFile || themeConfig.articles?.imageFallback) ? 'group-hover:from-primary group-hover:via-primary/10 group-hover:to-primary/30' : 'group-hover:from-primary/30 group-hover:via-transparent',
-          (!wide && themeConfig.articles?.textOverImage) && 'sm:bg-linear-to-t group-hover:sm:via-primary/90',
-          !wide && 'sm:rounded-t-lg sm:rounded-bl-none group-hover:bg-linear-to-l sm:group-hover:bg-linear-to-t',
+          'from-stone-100 via-stone-100/70 to-transparent dark:from-stone-900 dark:via-stone-900/70',
+          imageFile || themeConfig.articles?.imageFallback ? 'group-hover:from-primary group-hover:via-primary/10 group-hover:to-primary/30' : 'group-hover:from-primary/30 group-hover:via-transparent',
+          !wide && themeConfig.articles?.textOverImage && 'group-hover:sm:via-primary/90 sm:bg-linear-to-t',
+          !wide && 'group-hover:bg-linear-to-l sm:rounded-t-lg sm:rounded-bl-none sm:group-hover:bg-linear-to-t',
         ]}
       >
-        <span class:list={[baseTitleClasses, 'hidden text-lg group-hover:text-text', (!wide && themeConfig.articles?.textOverImage) && 'sm:block']}>{entry.data.title}</span>
+        <span class:list={[baseTitleClasses, 'group-hover:text-text hidden text-lg', !wide && themeConfig.articles?.textOverImage && 'sm:block']}>{entry.data.title}</span>
       </span>
-      {featured && <span class="bg-primary absolute inset-0 h-fit w-fit rounded-tl-md rounded-br-lg px-2 py-1 text-xs text-primary-contrast drop-shadow">{t('featured')}</span>}
+      {featured && <span class="bg-primary text-primary-contrast absolute inset-0 h-fit w-fit rounded-tl-md rounded-br-lg px-2 py-1 text-xs drop-shadow">{t('featured')}</span>}
     </span>
 
     <span
       class:list={[
         baseContentClasses,
-        featured ? 'border-primary' : 'border-stone-400 group-hover:border-primary dark:border-stone-700',
-        wide ? 'sm:text-base group-hover:bg-linear-to-r' : 'group-hover:bg-linear-to-r sm:group-hover:bg-linear-to-b sm:rounded-tr-none sm:rounded-b-lg sm:border-t-0 sm:border-l',
-        'from-primary-light to-primary-light/30 dark:from-primary-darker dark:to-primary-darker/50 px-5 py-4 text-sm font-normal text-stone-200 group-hover:text-text dark:group-hover:text-text-dark',
+        featured ? 'border-primary' : 'group-hover:border-primary border-stone-400 dark:border-stone-700',
+        wide ? 'group-hover:bg-linear-to-r sm:text-base' : 'group-hover:bg-linear-to-r sm:rounded-tr-none sm:rounded-b-lg sm:border-t-0 sm:border-l sm:group-hover:bg-linear-to-b',
+        'from-primary-light to-primary-light/30 dark:from-primary-darker dark:to-primary-darker/50 group-hover:text-text dark:group-hover:text-text-dark px-5 py-4 text-sm font-normal text-stone-200',
       ]}
     >
       <span class="block">
-        <span class:list={[baseTitleClasses, 'mb-4 block xs:text-lg', wide && 'sm:text-xl' , (!wide && themeConfig.articles?.textOverImage) && 'sm:hidden']}>{entry.data.title}</span>
+        <span class:list={[baseTitleClasses, 'xs:text-lg mb-4 block', wide && 'sm:text-xl', !wide && themeConfig.articles?.textOverImage && 'sm:hidden']}>{entry.data.title}</span>
         {entry.data.excerpt}
       </span>
       <span class="dark:group-hover:text-primary-dark-contrast group-hover:text-primary-light-contrast hidden w-full justify-between pt-3 pr-1 group-hover:pr-0 sm:flex">

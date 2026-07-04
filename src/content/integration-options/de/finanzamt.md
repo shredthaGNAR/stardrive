@@ -4,7 +4,6 @@ service: 'Finanzamt'
 title: 'Immer schön anständig bleiben'
 description: 'Eine Integration zwischen Stardrive und dem deutschen Finanzamt wäre nicht wirklich sinnvoll'
 url: 'https://www.bzst.de/'
-categories: ['taxes', 'bad things']
 ---
 
 Eine derartige Integration besteht daher natürlich nicht.

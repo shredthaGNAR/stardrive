@@ -2,14 +2,20 @@
   "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
   "overrides": [
     {
-      "files": "*.astro",
+      "files": [".*", "*.md", "*.toml", "*.yml"],
+      "options": {
+        "useTabs": false
+      }
+    },
+    {
+      "files": ["**/*.astro"],
       "options": {
         "parser": "astro"
       }
     }
   ],
+  "astroSkipFrontmatter": true,
   "proseWrap": "preserve",
-  "embeddedLanguageFormatting": "off",
   "useTabs": false,
   "singleQuote": true,
   "trailingComma": "all",

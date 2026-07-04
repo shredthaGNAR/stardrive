@@ -43,8 +43,7 @@ interface Props {
     /** Force hide or show the top banner */
     showTopBanner?: boolean;
   };
-  /** Force hide or show the footer banner */
-  showFooterBanner?: boolean;
+  showFooterBanner?: boolean; // Force hide or show the footer banner
   robots?: string;
   isError?: boolean;
   locale?: string;
@@ -54,6 +53,7 @@ interface Props {
   schemaType?: 'WebPage' | 'FAQPage';
   collection?: CollectionKey; // we need this (for things like events or integration_options) to identify whether pages are translated or not
   contentId?: string; // we need this (for things like events or integration_options) to identify whether pages are translated or not
+  noContainer?: boolean; // if true, the content will not be wrapped in a container div (useful for full-width pages like the homepage)
 }
 
 const locale = Astro.props.locale || themeConfig.i18n.defaultLocale;
@@ -61,7 +61,7 @@ const t = useTranslations(locale);
 
 const title = Astro.props.title || t('meta.title');
 const description = Astro.props.description || t('meta.description');
-const { isError, noi18n, noTitleSlug, robots, isHome, schemaType, header, showFooterBanner, collection, contentId } = Astro.props;
+const { isError, noi18n, noTitleSlug, robots, isHome, schemaType, header, showFooterBanner, collection, contentId, noContainer } = Astro.props;
 
 const ogTitle = themeConfig.ogTitle ?? t('meta.og-site-name');
 const metaTitle = noTitleSlug ? title : title + ' | ' + t('meta.slug');
@@ -100,12 +100,22 @@ const showTopBanner = (themeConfig.promotions?.topBanner && header?.showTopBanne
   <body>
     {showTopBanner ? <TopBanner {locale} /> : null}
     <div class="relative w-full">
-      {header?.hidden !== true && <Header {locale} button={header?.button ?? undefined} github="https://github.com/Peltmonger/stardrive" ctaButton={{text:t('labels.signup'),href:getLocaleUrl('signup', locale)}} {isHome} fixed={header?.fixed} overlay={header?.overlay} overlayTheme="dark" scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} hasTopBanner={showTopBanner} />}
+      {
+        header?.hidden !== true && (
+          <Header {locale} button={header?.button ?? undefined} github="https://github.com/Peltmonger/stardrive" ctaButton={{ text: t('labels.signup'), href: getLocaleUrl('signup', locale) }} {isHome} fixed={header?.fixed} overlay={header?.overlay} overlayTheme="dark" scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} hasTopBanner={showTopBanner} />
+        )
+      }
       <main role="main" class="relative z-40">
         {isHome && <Hero {locale} />}
-        <div class="container mx-auto pt-4 md:pt-8 pb-10 md:pb-14 lg:pb-16">
-          <slot />
-        </div>
+        {
+          !noContainer ? (
+            <div class="container mx-auto pt-4 pb-10 md:pt-8 md:pb-14 lg:pb-16">
+              <slot />
+            </div>
+          ) : (
+            <slot />
+          )
+        }
       </main>
       {(themeConfig.promotions?.footerBanner && showFooterBanner !== false) || showFooterBanner ? <FooterBanner {locale} /> : null}
       {themeConfig.promotions?.newsletterSignup === 'bottom' && <NewsletterSignup {locale} />}

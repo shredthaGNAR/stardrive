@@ -17,6 +17,7 @@ image:
 La Antarctic Space Agency (ASA) invita a todos los pingüinos a una semana completa de innovación, presentaciones de investigación y talleres colaborativos.
 
 **Temas diarios:**
+
 - **Lunes**: Exploración espacial y ciencia de cohetes
 - **Martes**: Biología marina y tecnología de peces
 - **Miércoles**: Ciencia climática e investigación del hielo

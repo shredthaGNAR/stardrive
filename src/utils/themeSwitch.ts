@@ -1,11 +1,34 @@
 import { get, set } from '@/utils/localStorage';
+import { themeConfig } from '~/theme.config';
 import type { UserTheme } from '~/types/user-theme';
+
+// Expressive Code theme names (per mode) used as the `data-theme` value so that
+// code blocks render with the matching theme. Derived from `theme.config.ts`.
+const EC_THEME_LIGHT = themeConfig.expressiveCodeThemes?.light as string;
+const EC_THEME_DARK = (themeConfig.expressiveCodeThemes?.dark || EC_THEME_LIGHT) as string;
+
+/**
+ * Applies the given theme to the <html> element: toggles the `dark` class and
+ * sets `data-theme` to the Expressive Code theme name for that mode.
+ */
+const applyTheme = (theme: UserTheme) => {
+  const root = document.documentElement;
+  if (theme === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
+  }
+  if (EC_THEME_LIGHT !== undefined && EC_THEME_DARK !== undefined) {
+    root.setAttribute('data-theme', theme === 'dark' ? EC_THEME_DARK : EC_THEME_LIGHT);
+  }
+};
 
 /**
  * Inline script run synchronously in <head> before first paint to prevent theme flash.
  * Must be self-contained (no imports) - injected via `set:html` in base.astro.
+ * The Expressive Code theme names are interpolated at build time from `theme.config.ts`.
  */
-export const THEME_INIT_SCRIPT = `(function(){var t=localStorage.getItem('user-theme');` + `if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))` + `{document.documentElement.classList.add('dark')}})();`;
+export const THEME_INIT_SCRIPT = `(function(){var t=localStorage.getItem('user-theme');` + `var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);` + `if(d){document.documentElement.classList.add('dark')}` + `document.documentElement.setAttribute('data-theme',d?'${EC_THEME_DARK}':'${EC_THEME_LIGHT}')})();`;
 
 function getSystemPreference(): UserTheme {
   // check for the system and fall back to light
@@ -20,22 +43,14 @@ export const getUserTheme = (): UserTheme => {
     theme = getSystemPreference();
     set('user-theme', theme);
   }
-  // adjust the class on the html element accordingly before returning the theme
-  if (theme === 'dark') {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
+  // adjust the html element (dark class + data-theme) before returning the theme
+  applyTheme(theme);
   return theme;
 };
 
 export const setUserTheme = (theme: UserTheme) => {
   // save the theme to local storage
   set('user-theme', theme);
-  // adjust the class on the html element
-  if (theme === 'dark') {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
+  // adjust the html element (dark class + data-theme)
+  applyTheme(theme);
 };

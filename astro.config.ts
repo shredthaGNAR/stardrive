@@ -7,7 +7,6 @@ import icon from 'astro-icon';
 import { unified, rehypeHeadingIds } from '@astrojs/markdown-remark';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import astroExpressiveCode from 'astro-expressive-code';
-import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
 import { externalLinking } from './src/plugins/external-linking';
 import { rehypeYoutubePlugin } from './src/plugins/youtube-embed';
 import { themeConfig } from './theme.config';
@@ -142,9 +141,15 @@ export default defineConfig({
   integrations: [
     solidJs(),
     setOnDemandPrerender,
-    sitemap({ i18n: sitemap_i18n, customPages: getOnDemandSitemapPages() }),
+    sitemap({
+      i18n: sitemap_i18n,
+      customPages: getOnDemandSitemapPages(),
+      customSitemaps: [themeConfig.site.replace(/\/+$/, '') + '/dynamic-events-sitemap.xml'],
+    }),
     icon(),
-    astroExpressiveCode({ themes: themeConfig.expressiveCodeThemes, plugins: [pluginLineNumbers()], defaultProps: { showLineNumbers: false } }),
+    // Expressive Code options live in `ec.config.mjs` in the project root, so both the
+    // Markdown integration and the `<Code>` component share the same config.
+    astroExpressiveCode(),
     (await import('astro-compress')).default({
       CSS: false, // disabled: astro-compress's CSS minifier (csso) strips Tailwind v4's modern `@media (width >= ...)` range syntax, which removes all responsive breakpoints and makes the site render mobile-only. Vite already minifies CSS safely.
       HTML: {

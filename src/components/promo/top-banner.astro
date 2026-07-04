@@ -10,18 +10,12 @@ const { locale } = Astro.props as Props;
 const t = useTranslations(locale);
 ---
 
-<a
-  href={getLocaleUrl('docs', locale)}
-  id="top-banner"
-  role="menuitem"
-  tabindex="-1"
-  class="group no-underline bg-rose-800 hover:bg-rose-700 text-white h-9 px-3 py-2 hidden sm:flex gap-1 items-center justify-center text-sm z-50"
->
-  <span>{t("global-promo.top-text-1")}</span>
-  <span class="truncate lg:inline hidden">{t("global-promo.top-text-2")}</span>
-  <span class="text-normal opacity-50 px-1.5" aria-hidden="true">|</span>
-  <span class="flex gap-2 items-center shrink-0">
-    {t("global-promo.top-cta")}
-    <Icon name="heroicons:arrow-right" class="h-4 w-4 shrink-0 mr-1 group-hover:ml-1 group-hover:mr-0 transition-all" aria-hidden="true" />
+<a href={getLocaleUrl('docs', locale)} id="top-banner" role="menuitem" tabindex="-1" class="group z-50 hidden h-9 items-center justify-center gap-1 bg-rose-800 px-3 py-2 text-sm text-white no-underline hover:bg-rose-700 sm:flex">
+  <span>{t('global-promo.top-text-1')}</span>
+  <span class="hidden truncate lg:inline">{t('global-promo.top-text-2')}</span>
+  <span class="text-normal px-1.5 opacity-50" aria-hidden="true">|</span>
+  <span class="flex shrink-0 items-center gap-2">
+    {t('global-promo.top-cta')}
+    <Icon name="heroicons:arrow-right" class="mr-1 h-4 w-4 shrink-0 transition-all group-hover:mr-0 group-hover:ml-1" aria-hidden="true" />
   </span>
 </a>

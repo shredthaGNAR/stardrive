@@ -132,184 +132,182 @@ const labels = {
   faqCategoryParam: "Filter questions by this category (id or label).",
 };
 
-const payload = { blog, faq, labels };
 const hasAnyTool = hasArticles || hasFaq;
+const payload = hasAnyTool ? { blog, faq, labels } : null;
 ---
 
-{
-  hasAnyTool && (
-    <script type="application/json" id="webmcp-data" is:inline set:html={JSON.stringify(payload)} />
-  )
-}
+<div data-has-tools={`${hasAnyTool}`} class="hidden"></div>
 
-{
-  hasAnyTool && (
-    <script>
-      interface TaggedItem {
-        id: string;
-        label: string;
+<script type="application/json" id="webmcp-data" is:inline set:html={JSON.stringify(payload)} />
+
+<script>
+  interface TaggedItem {
+    id: string;
+    label: string;
+  }
+  interface BlogPost {
+    title: string;
+    url: string;
+    date: string;
+    tags: string[];
+    categories: string[];
+  }
+  interface FaqEntry {
+    question: string;
+    category: string;
+    answer: string;
+  }
+  interface WebMCPData {
+    blog: { tags: TaggedItem[]; categories: TaggedItem[]; posts: BlogPost[] } | null;
+    faq: { categories: TaggedItem[]; entries: FaqEntry[] } | null;
+    labels: Record<string, string>;
+  }
+
+  let hasAnyTool = document.querySelector<HTMLElement>('[data-has-tools]')?.dataset.hasTools === 'true';
+
+  if (hasAnyTool) {
+    let abortController: AbortController | null = null;
+
+    function matches(value: string, list: TaggedItem[], candidate: string): boolean {
+      const needle = candidate.trim().toLowerCase();
+      const item = list.find((i) => i.id.toLowerCase() === needle || i.label.toLowerCase() === needle);
+      // Match against the resolved id, or fall back to a direct id comparison.
+      return value.toLowerCase() === (item?.id.toLowerCase() ?? needle);
+    }
+
+    async function registerWebMCPTools() {
+      // The API moved from navigator.modelContext (Chrome < 150) to
+      // document.modelContext (Chrome >= 150); support both.
+      const modelContext = document.modelContext ?? navigator.modelContext;
+      if (!modelContext) return; // WebMCP unsupported in this browser
+
+      const dataEl = document.getElementById('webmcp-data');
+      if (!dataEl?.textContent) return;
+
+      let data: WebMCPData;
+      try {
+        data = JSON.parse(dataEl.textContent) as WebMCPData;
+      } catch {
+        return;
       }
-      interface BlogPost {
-        title: string;
-        url: string;
-        date: string;
-        tags: string[];
-        categories: string[];
-      }
-      interface FaqEntry {
-        question: string;
-        category: string;
-        answer: string;
-      }
-      interface WebMCPData {
-        blog: { tags: TaggedItem[]; categories: TaggedItem[]; posts: BlogPost[] } | null;
-        faq: { categories: TaggedItem[]; entries: FaqEntry[] } | null;
-        labels: Record<string, string>;
-      }
 
-      let abortController: AbortController | null = null;
+      // Re-register on navigation: abort previously registered tools first.
+      abortController?.abort();
+      abortController = new AbortController();
+      const { signal } = abortController;
+      const readOnly = { readOnlyHint: true, untrustedContentHint: true };
 
-      function matches(value: string, list: TaggedItem[], candidate: string): boolean {
-        const needle = candidate.trim().toLowerCase();
-        const item = list.find((i) => i.id.toLowerCase() === needle || i.label.toLowerCase() === needle);
-        // Match against the resolved id, or fall back to a direct id comparison.
-        return value.toLowerCase() === (item?.id.toLowerCase() ?? needle);
-      }
+      const { blog, faq, labels } = data;
 
-      async function registerWebMCPTools() {
-        // The API moved from navigator.modelContext (Chrome < 150) to
-        // document.modelContext (Chrome >= 150); support both.
-        const modelContext = document.modelContext ?? navigator.modelContext;
-        if (!modelContext) return; // WebMCP unsupported in this browser
+      if (blog) {
+        await modelContext.registerTool(
+          {
+            name: 'get_blog_tags',
+            description: labels.blogTagsDesc,
+            inputSchema: { type: 'object', properties: {} },
+            annotations: readOnly,
+            execute: async () => JSON.stringify(blog.tags),
+          },
+          { signal },
+        );
 
-        const dataEl = document.getElementById("webmcp-data");
-        if (!dataEl?.textContent) return;
+        await modelContext.registerTool(
+          {
+            name: 'get_blog_categories',
+            description: labels.blogCategoriesDesc,
+            inputSchema: { type: 'object', properties: {} },
+            annotations: readOnly,
+            execute: async () => JSON.stringify(blog.categories),
+          },
+          { signal },
+        );
 
-        let data: WebMCPData;
-        try {
-          data = JSON.parse(dataEl.textContent) as WebMCPData;
-        } catch {
-          return;
-        }
-
-        // Re-register on navigation: abort previously registered tools first.
-        abortController?.abort();
-        abortController = new AbortController();
-        const { signal } = abortController;
-        const readOnly = { readOnlyHint: true, untrustedContentHint: true };
-
-        const { blog, faq, labels } = data;
-
-        if (blog) {
-          await modelContext.registerTool(
-            {
-              name: "get_blog_tags",
-              description: labels.blogTagsDesc,
-              inputSchema: { type: "object", properties: {} },
-              annotations: readOnly,
-              execute: async () => JSON.stringify(blog.tags),
-            },
-            { signal },
-          );
-
-          await modelContext.registerTool(
-            {
-              name: "get_blog_categories",
-              description: labels.blogCategoriesDesc,
-              inputSchema: { type: "object", properties: {} },
-              annotations: readOnly,
-              execute: async () => JSON.stringify(blog.categories),
-            },
-            { signal },
-          );
-
-          await modelContext.registerTool(
-            {
-              name: "get_blog_posts",
-              description: labels.blogPostsDesc,
-              inputSchema: {
-                type: "object",
-                properties: {
-                  category: { type: "string", description: labels.blogPostsCategoryParam },
-                  tag: { type: "string", description: labels.blogPostsTagParam },
-                  fromDate: { type: "string", description: labels.blogPostsFromParam },
-                  toDate: { type: "string", description: labels.blogPostsToParam },
-                  limit: { type: "integer", minimum: 1, description: labels.blogPostsLimitParam },
-                  offset: { type: "integer", minimum: 0, description: labels.blogPostsOffsetParam },
-                  page: { type: "integer", minimum: 1, description: labels.blogPostsPageParam },
-                },
-              },
-              annotations: readOnly,
-              execute: async (args) => {
-                const { category, tag, fromDate, toDate, limit, offset, page } = (args ?? {}) as {
-                  category?: string;
-                  tag?: string;
-                  fromDate?: string;
-                  toDate?: string;
-                  limit?: number;
-                  offset?: number;
-                  page?: number;
-                };
-                let posts = blog.posts;
-                if (category) posts = posts.filter((p) => p.categories.some((c) => matches(c, blog.categories, category)));
-                if (tag) posts = posts.filter((p) => p.tags.some((tg) => matches(tg, blog.tags, tag)));
-                if (fromDate) posts = posts.filter((p) => p.date >= fromDate);
-                if (toDate) posts = posts.filter((p) => p.date <= toDate);
-
-                const total = posts.length;
-                // Pagination: `page` (1-based) takes precedence over `offset`.
-                const pageSize = limit && limit > 0 ? Math.floor(limit) : 10;
-                const start = page && page > 0 ? (Math.floor(page) - 1) * pageSize : Math.max(0, Math.floor(offset ?? 0));
-                posts = posts.slice(start, start + pageSize);
-
-                // Return only the headline and URL, plus the total for paging.
-                return JSON.stringify({ total, posts: posts.map((p) => ({ title: p.title, url: p.url })) });
+        await modelContext.registerTool(
+          {
+            name: 'get_blog_posts',
+            description: labels.blogPostsDesc,
+            inputSchema: {
+              type: 'object',
+              properties: {
+                category: { type: 'string', description: labels.blogPostsCategoryParam },
+                tag: { type: 'string', description: labels.blogPostsTagParam },
+                fromDate: { type: 'string', description: labels.blogPostsFromParam },
+                toDate: { type: 'string', description: labels.blogPostsToParam },
+                limit: { type: 'integer', minimum: 1, description: labels.blogPostsLimitParam },
+                offset: { type: 'integer', minimum: 0, description: labels.blogPostsOffsetParam },
+                page: { type: 'integer', minimum: 1, description: labels.blogPostsPageParam },
               },
             },
-            { signal },
-          );
-        }
+            annotations: readOnly,
+            execute: async (args) => {
+              const { category, tag, fromDate, toDate, limit, offset, page } = (args ?? {}) as {
+                category?: string;
+                tag?: string;
+                fromDate?: string;
+                toDate?: string;
+                limit?: number;
+                offset?: number;
+                page?: number;
+              };
+              let posts = blog.posts;
+              if (category) posts = posts.filter((p) => p.categories.some((c) => matches(c, blog.categories, category)));
+              if (tag) posts = posts.filter((p) => p.tags.some((tg) => matches(tg, blog.tags, tag)));
+              if (fromDate) posts = posts.filter((p) => p.date >= fromDate);
+              if (toDate) posts = posts.filter((p) => p.date <= toDate);
 
-        if (faq) {
-          await modelContext.registerTool(
-            {
-              name: "get_faq_categories",
-              description: labels.faqCategoriesDesc,
-              inputSchema: { type: "object", properties: {} },
-              annotations: readOnly,
-              execute: async () => JSON.stringify(faq.categories),
-            },
-            { signal },
-          );
+              const total = posts.length;
+              // Pagination: `page` (1-based) takes precedence over `offset`.
+              const pageSize = limit && limit > 0 ? Math.floor(limit) : 10;
+              const start = page && page > 0 ? (Math.floor(page) - 1) * pageSize : Math.max(0, Math.floor(offset ?? 0));
+              posts = posts.slice(start, start + pageSize);
 
-          await modelContext.registerTool(
-            {
-              name: "get_faq",
-              description: labels.faqDesc,
-              inputSchema: {
-                type: "object",
-                properties: {
-                  category: { type: "string", description: labels.faqCategoryParam },
-                },
-              },
-              annotations: readOnly,
-              execute: async (args) => {
-                const { category } = (args ?? {}) as { category?: string };
-                let entries = faq.entries;
-                if (category) entries = entries.filter((e) => e.category && matches(e.category, faq.categories, category));
-                return JSON.stringify(entries);
-              },
+              // Return only the headline and URL, plus the total for paging.
+              return JSON.stringify({ total, posts: posts.map((p) => ({ title: p.title, url: p.url })) });
             },
-            { signal },
-          );
-        }
+          },
+          { signal },
+        );
       }
 
+      if (faq) {
+        await modelContext.registerTool(
+          {
+            name: 'get_faq_categories',
+            description: labels.faqCategoriesDesc,
+            inputSchema: { type: 'object', properties: {} },
+            annotations: readOnly,
+            execute: async () => JSON.stringify(faq.categories),
+          },
+          { signal },
+        );
+
+        await modelContext.registerTool(
+          {
+            name: 'get_faq',
+            description: labels.faqDesc,
+            inputSchema: {
+              type: 'object',
+              properties: {
+                category: { type: 'string', description: labels.faqCategoryParam },
+              },
+            },
+            annotations: readOnly,
+            execute: async (args) => {
+              const { category } = (args ?? {}) as { category?: string };
+              let entries = faq.entries;
+              if (category) entries = entries.filter((e) => e.category && matches(e.category, faq.categories, category));
+              return JSON.stringify(entries);
+            },
+          },
+          { signal },
+        );
+      }
+    }
+
+    registerWebMCPTools().catch(console.error);
+    // Re-register after Astro view transitions (content/locale may change).
+    document.addEventListener('astro:after-swap', () => {
       registerWebMCPTools().catch(console.error);
-      // Re-register after Astro view transitions (content/locale may change).
-      document.addEventListener("astro:after-swap", () => {
-        registerWebMCPTools().catch(console.error);
-      });
-    </script>
-  )
-}
+    });
+  }
+</script>

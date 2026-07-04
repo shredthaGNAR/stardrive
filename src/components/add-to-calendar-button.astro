@@ -56,6 +56,12 @@ interface Props {
   forceOverlay?: boolean;
   /** CSP Nonce Value - set, if required for your Content Security Policy */
   nonce?: string;
+  /** Optional image url */
+  image?: string;
+  /** Hide rich data / schema.org metadata, that gets automatically infused by the component */
+  hideRichData?: boolean;
+  /** Add to Calendar PRO event Prokey - overrides any other explicit date information */
+  prokey?: string;
 }
 
 const {
@@ -75,7 +81,10 @@ const {
   organizer,
   hideLabel = false,
   forceOverlay = false,
-  nonce
+  nonce,
+  image,
+  hideRichData = false,
+  prokey
 } = Astro.props as Props;
 
 // The web component expects list attributes as a JSON-ish string.
@@ -102,38 +111,45 @@ const hideBranding = false;
 const debug = true;
 ---
 
-<add-to-calendar-button
-  name={name}
-  description={description}
-  startDate={toDate(start)}
-  startTime={allDay ? undefined : toTime(start)}
-  endDate={toDate(end)}
-  endTime={allDay ? undefined : toTime(end)}
-  timeZone={timeZone}
-  location={location}
-  options={optionsAttr}
-  organizer={organizerAttr}
-  recurrence={recurrence}
-  icsFile={icsFile}
-  language={language}
-  buttonStyle={buttonStyle}
-  listStyle={listStyle}
-  hideTextLabelButton={hideLabel}
-  lightMode="bodyScheme"
-  trigger="click"
-  forceOverlay={forceOverlay}
-  hideBranding={hideBranding}
-  debug={debug}
-  cspnonce={nonce}
->
-</add-to-calendar-button>
+{
+  prokey ? (
+    <add-to-calendar-button language={language} buttonStyle={buttonStyle} listStyle={listStyle} hideTextLabelButton={hideLabel} lightMode="bodyScheme" trigger="click" forceOverlay={forceOverlay} debug={debug} cspnonce={nonce} hideRichData={hideRichData} prooverride={true} inlineRsvp={false} rsvp='{ "none": true }' prokey={prokey} customCss="" styleLight="" styleDark="" proxy />
+  ) : (
+    <add-to-calendar-button
+      name={name}
+      description={description}
+      startDate={toDate(start)}
+      startTime={allDay ? undefined : toTime(start)}
+      endDate={toDate(end)}
+      endTime={allDay ? undefined : toTime(end)}
+      timeZone={timeZone}
+      location={location}
+      options={optionsAttr}
+      organizer={organizerAttr}
+      recurrence={recurrence}
+      icsFile={icsFile}
+      language={language}
+      buttonStyle={buttonStyle}
+      listStyle={listStyle}
+      hideTextLabelButton={hideLabel}
+      lightMode="bodyScheme"
+      trigger="click"
+      forceOverlay={forceOverlay}
+      hideBranding={hideBranding}
+      debug={debug}
+      cspnonce={nonce}
+      images={image ? `[${image}]` : undefined}
+      hideRichData={hideRichData}
+    />
+  )
+}
 
 <style>
   @reference '../styles/tailwind.config.css';
 
   /* Style override. See https://add-to-calendar-button.com/advanced-use for details. */
   :global(add-to-calendar-button::part(atcb-button)) {
-    @apply ring-primary shadow-none border-stone-300 bg-stone-200 text-stone-950 font-sans;
+    @apply ring-primary border-stone-300 bg-stone-200 font-sans text-stone-950 shadow-none;
   }
   :global(:where(.dark, .dark *) add-to-calendar-button)::part(atcb-button) {
     @apply dark:border-stone-100 dark:bg-stone-300;
@@ -145,7 +161,7 @@ const debug = true;
     @apply outline-0;
   }
   :global(add-to-calendar-button::part(atcb-button):focus-within) {
-    @apply ring-2 ring-primary;
+    @apply ring-primary ring-2;
   }
   :global(add-to-calendar-button::part(atcb-list)),
   :global(.add-to-calendar::part(atcb-list)) {

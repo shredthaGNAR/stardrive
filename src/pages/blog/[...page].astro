@@ -30,7 +30,7 @@ const numberofPages = Math.ceil(page.total / page.size);
 <Layout title={t('pages.blog.title') + (page.currentPage > 1 ? ': ' + t('labels.page') + ' ' + page.currentPage : '')} noi18n={page.currentPage > 1} {locale}>
   <Headline text={t('pages.blog.title') + (page.currentPage > 1 ? ': ' + t('labels.page') + ' ' + page.currentPage : '')} />
   {
-    (allArticles.length > 0 && themeConfig.articles && (themeConfig.articles.categories || themeConfig.articles.tags)) && (
+    allArticles.length > 0 && themeConfig.articles && (themeConfig.articles.categories || themeConfig.articles.tags) && (
       <div class="xs:gap-10 flex w-full flex-wrap justify-end gap-6 pb-10 sm:gap-6">
         {themeConfig.articles.categories && (
           <a href={getLocaleUrl('blog/categories', locale)} class="flex w-fit items-center gap-1 pr-1 text-sm no-underline hover:gap-2 hover:pr-0">
@@ -48,6 +48,6 @@ const numberofPages = Math.ceil(page.total / page.size);
     )
   }
   {numberofPages > 1 && page.currentPage > 1 && <Pagination {page} {locale} class="mt-4 mb-14" />}
-  {allArticles.length > 0 ? <List entries={allArticles} {locale} firstBig={page.currentPage === 1 ? true : false} /> : <div class="my-20 font-semibold text-xl italic">{t('labels.no-entries')}...</div>}
+  {allArticles.length > 0 ? <List entries={allArticles} {locale} firstBig={page.currentPage === 1 ? true : false} /> : <div class="my-20 text-xl font-semibold italic">{t('labels.no-entries')}...</div>}
   {numberofPages > 1 && <Pagination {page} {locale} />}
 </Layout>

@@ -1,10 +1,11 @@
 ---
 import Layout from "@layouts/default.astro";
 import Headline from "@components/headline.astro";
-import List from "@components/event-list.astro";
+import List from "@components/events/event-list.astro";
+import { Icon } from "astro-icon/components";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
-import { getCollection } from 'astro:content';
+import { getEvents } from "@utils/event-bridge";
 import type { CollectionEntry } from "astro:content";
 
 // helper to get the inclusive year span of an event (minding startDate and endDate)
@@ -17,7 +18,7 @@ const getYearSpan = (entry: CollectionEntry<'events'>) => {
 export async function getStaticPaths() {
   const locale = themeConfig.i18n.defaultLocale;
   // load all non-draft events for the default locale
-  const allEvents = await getCollection('events', ({ id, data }) => {
+  const allEvents = await getEvents(({ id, data }) => {
     // only show events that are not drafts and mind locale
     return !data.draft && id.startsWith(locale + '/');
   }) as CollectionEntry<'events'>[];
@@ -53,7 +54,7 @@ if (isNaN(year)) {
 }
 
 // load all non-draft events for the default locale
-const allEvents = await getCollection('events', ({ id, data }) => {
+const allEvents = await getEvents(({ id, data }) => {
   // only show events that are not drafts and mind locale
   return !data.draft && id.startsWith(locale + '/');
 }) as CollectionEntry<'events'>[];
@@ -78,27 +79,69 @@ const availableYears = [...new Set(
 
 // the years offered in the select: every year with an event plus the currently selected one
 const selectYears = [...new Set([...availableYears, year])].sort((a, b) => a - b);
+
+// pagination: find previous and next year that actually have events
+const sortedAvailableYears = availableYears.sort((a, b) => a - b);
+const currentYearIndex = sortedAvailableYears.indexOf(year);
+const prevYear = currentYearIndex > 0 ? sortedAvailableYears[currentYearIndex - 1] : null;
+const nextYear = currentYearIndex >= 0 && currentYearIndex < sortedAvailableYears.length - 1 ? sortedAvailableYears[currentYearIndex + 1] : null;
+const hasMultipleYears = sortedAvailableYears.length > 1;
 ---
 
 <Layout title={t('pages.events.title') + ' ' + year} description={t('pages.events.description')} {locale}>
-  <div class="flex items-start xs:items-end mb-10 justify-between flex-col xs:flex-row gap-x-10">
+  <div class="xs:items-end xs:flex-row mb-10 flex flex-col items-start justify-between gap-x-10">
     <Headline text={t('pages.events.title')} class="grow" />
     <div class="mb-5 flex items-center gap-3">
-      {selectYears.length > 1 ? (
-        <label class="flex items-center gap-2">
-          <span class="sr-only">{t('pages.events.select-year')}</span>
-          <select id="event-year-select" class="select-primary w-auto! max-w-none! min-w-0! text-2xl font-bold">
-            {selectYears.map((y) => (
-              <option value={getLocaleUrl(y === currentYear ? 'events' : 'events/' + y, locale)} selected={y === year}>{y}</option>
-            ))}
-          </select>
-        </label>
-      ) : (
-        <span class="text-2xl p-2 font-bold">{year}</span>
-      )}
+      {
+        selectYears.length > 1 ? (
+          <label class="flex items-center gap-2">
+            <span class="sr-only">{t('pages.events.select-year')}</span>
+            <select id="event-year-select" class="select-primary w-auto! max-w-none! min-w-0! text-2xl font-bold">
+              {selectYears.map((y) => (
+                <option value={getLocaleUrl(y === currentYear ? 'events' : 'events/' + y, locale)} selected={y === year}>
+                  {y}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : (
+          <span class="p-2 text-2xl font-bold">{year}</span>
+        )
+      }
     </div>
   </div>
-  {shownEvents.length > 0 ? <List entries={shownEvents} {locale} {year} /> : <div class="my-20 font-semibold text-xl italic">{t('labels.no-entries')}...</div>}
+  {shownEvents.length > 0 ? <List entries={shownEvents} {locale} {year} /> : <div class="my-20 text-xl font-semibold italic">{t('labels.no-entries')}...</div>}
+
+  {
+    hasMultipleYears && (
+      <nav aria-label={t('labels.pagination')} class="mt-28 mb-3">
+        <ul class="mx-auto flex w-fit items-center justify-center drop-shadow select-none hover:drop-shadow-lg">
+          <li>
+            {prevYear !== null ? (
+              <a href={getLocaleUrl(prevYear === currentYear ? 'events' : 'events/' + prevYear, locale)} aria-label={t('labels.prev')} class="hover:text-primary-contrast hover:border-primary hover:bg-primary relative flex h-10 w-fit items-center justify-center rounded-s-lg border border-stone-400 bg-stone-200 px-6 md:px-3 dark:bg-stone-800">
+                <Icon name="heroicons:chevron-left" class="h-5 w-5" />
+              </a>
+            ) : (
+              <div class="flex h-10 w-fit cursor-not-allowed items-center justify-center rounded-s-lg border border-r-0 border-stone-400 bg-stone-200 px-3 opacity-30 dark:bg-stone-800">
+                <Icon name="heroicons:chevron-left" class="h-5 w-5" />
+              </div>
+            )}
+          </li>
+          <li class="mt-0">
+            {nextYear !== null ? (
+              <a href={getLocaleUrl(nextYear === currentYear ? 'events' : 'events/' + nextYear, locale)} aria-label={t('labels.next')} class:list={[prevYear !== null && 'border-l-0', 'hover:text-primary-contrast hover:border-primary hover:bg-primary relative flex h-10 w-fit items-center justify-center rounded-e-lg border border-stone-400 bg-stone-200 px-6 md:px-3 dark:bg-stone-800']}>
+                <Icon name="heroicons:chevron-right" class="h-5 w-5" />
+              </a>
+            ) : (
+              <div class="flex h-10 w-fit cursor-not-allowed items-center justify-center rounded-e-lg border border-l-0 border-stone-400 bg-stone-200 px-3 opacity-30 dark:bg-stone-800">
+                <Icon name="heroicons:chevron-right" class="h-5 w-5" />
+              </div>
+            )}
+          </li>
+        </ul>
+      </nav>
+    )
+  }
 </Layout>
 
 <script>

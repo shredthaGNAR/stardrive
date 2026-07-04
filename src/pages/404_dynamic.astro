@@ -8,12 +8,14 @@ import { themeConfig } from '~/theme.config';
 export const prerender = false;
 
 const defaultLocale = themeConfig.i18n.defaultLocale;
-// parse locale from path (if there is a 2-letter language code in the path, e.g. /de/xyz, then use that as the locale, otherwise use the default locale)
-const url = new URL(Astro.request.url);
-const pathParts = url.pathname.split('/').filter(Boolean);
+// Parse locale from the ORIGINAL request path (not Astro.url, which is /404_dynamic after the rewrite).
+// Astro.originPathname preserves the pathname the visitor actually requested, e.g. /de/blog/unknown-slug.
+const originPath = Astro.originPathname ?? '/';
+const pathParts = originPath.split('/').filter(Boolean);
 const localeFromPath = pathParts.length > 0 && themeConfig.i18n.locales.includes(pathParts[0]) ? pathParts[0] : null;
 const locale = Astro.props.locale || localeFromPath || defaultLocale;
-const path = locale === defaultLocale ? '/404' : `/${locale}/404`;
+const targetPath = locale === defaultLocale ? '/404' : `/${locale}/404`;
+void targetPath; // referenced here because the Astro language server does not track usage inside a top-level `return` statement in frontmatter, which would otherwise flag `targetPath` as unused (ts 6133).
 
-return Astro.redirect(path, 302);
+return Astro.redirect(targetPath, 302);
 ---

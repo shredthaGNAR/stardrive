@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { useTranslations, getLocaleUrl } from "@utils/i18n";
-import { themeConfig } from "~/theme.config";
+import { getLocaleUrl } from "@utils/i18n";
 import MainNav from "@components/layout/nav/main-nav.astro";
 import Logo from '@images/logo.svg';
 import LogoWhite from '@images/logo-white.svg';
@@ -31,49 +30,52 @@ interface Props {
 }
 
 const { locale, button, tabIndex = 0, shrink = true, isHome, ctaButton, github, logoTheme } = Astro.props as Props;
-const t = useTranslations(locale);
 ---
 
-<div class:list={["lg:container mx-6 lg:mx-auto flex items-center gap-10 justify-between h-20", shrink && "header-content-inner transition-[height] duration-300"]}>
-  {button ? (
-    <a href={button.href} class="btn-subtle text-sm rounded px-3" tabindex={tabIndex}>
-      <Icon name="heroicons:arrow-left" class="w-4 h-4" />
-      {button.text}
-    </a>
-  ) : (
-    isHome ? (
-      <Logo class:list={["h-10 select-none touch-none w-fit header-logo-dark", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
-      <LogoWhite class:list={["h-10 select-none touch-none^ w-fit header-logo-white", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'hidden dark:block']} />
-
+<div data-shrink={`${shrink}`} class:list={['mx-6 flex h-20 items-center justify-between gap-10 lg:container lg:mx-auto', shrink && 'header-content-inner transition-[height] duration-300']}>
+  {
+    button ? (
+      <a href={button.href} class="btn-subtle rounded px-3 text-sm" tabindex={tabIndex}>
+        <Icon name="heroicons:arrow-left" class="h-4 w-4" />
+        {button.text}
+      </a>
+    ) : isHome ? (
+      <span>
+        <Logo class:list={['header-logo-dark h-10 w-fit touch-none select-none', logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
+        <LogoWhite class:list={['touch-none^ header-logo-white h-10 w-fit select-none', logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'hidden dark:block']} />
+      </span>
     ) : (
-      <a href={getLocaleUrl('/', locale)} class="w-fit select-none block" tabindex={tabIndex}>
-        <Logo class:list={["w-fit h-10 header-logo-dark", logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
-        <LogoWhite class:list={["w-fit h-10 header-logo-white", logoTheme === 'light' ? 'hidden' : logoTheme === 'dark' ? 'block' : 'hidden dark:block']} />
+      <a href={getLocaleUrl('/', locale)} class="block w-fit select-none" tabindex={tabIndex}>
+        <Logo class:list={['header-logo-dark h-10 w-fit', logoTheme === 'dark' ? 'hidden' : logoTheme === 'light' ? 'block' : 'block dark:hidden']} />
+        <LogoWhite class:list={['header-logo-white h-10 w-fit', logoTheme === 'light' ? 'hidden' : logoTheme === 'dark' ? 'block' : 'hidden dark:block']} />
       </a>
     )
-  )}
-  <div class="flex flex-row-reverse lg:flex-row gap-8 items-center">
+  }
+  <div class="flex flex-row-reverse items-center gap-8 lg:flex-row">
     <MainNav {locale} {tabIndex} />
-    <div class="flex gap-5 items-center">
-      {ctaButton && (
-        <a href={ctaButton.href} class="btn-primary text-sm hidden sm:block" tabindex={tabIndex}>
-          {ctaButton.text}
-        </a>
-      )}
-      {github && (
-        <a href={github} target="_blank" rel="noopener" class="hidden lg:block" tabindex={tabIndex}>
-          <Icon name="fa6-brands:github" class="w-6 h-6" />
-        </a>
-      )}
+    <div class="flex items-center gap-5">
+      {
+        ctaButton && (
+          <a href={ctaButton.href} class="btn-primary hidden text-sm sm:block" tabindex={tabIndex}>
+            {ctaButton.text}
+          </a>
+        )
+      }
+      {
+        github && (
+          <a href={github} target="_blank" rel="noopener" class="hidden lg:block" tabindex={tabIndex}>
+            <Icon name="fa6-brands:github" class="h-6 w-6" />
+          </a>
+        )
+      }
     </div>
   </div>
 </div>
 
-{shrink && (
 <script>
   function updateHeaderShrink() {
     const scrolled = window.scrollY > 60;
-    document.querySelectorAll<HTMLElement>('.header-content-inner').forEach(el => {
+    document.querySelectorAll<HTMLElement>('.header-content-inner').forEach((el) => {
       el.classList.toggle('h-20', !scrolled);
       el.classList.toggle('h-16', scrolled);
     });
@@ -85,7 +87,9 @@ const t = useTranslations(locale);
     updateHeaderShrink();
   }
 
-  setupHeaderShrink();
-  document.addEventListener('astro:page-load', setupHeaderShrink);
+  let isShrink = document.querySelector<HTMLElement>('.header-content-inner')?.dataset.shrink === 'true';
+  if (isShrink) {
+    setupHeaderShrink();
+    document.addEventListener('astro:page-load', setupHeaderShrink);
+  }
 </script>
-)}

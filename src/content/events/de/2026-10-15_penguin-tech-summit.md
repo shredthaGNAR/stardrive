@@ -20,10 +20,11 @@ image:
 Kommt zu den klügsten Köpfen der South Pole Penguin Nation (SPPN) für einen ganzen Tag voller Vorträge, Workshops und praktischer Sessions über die neueste antarktische Technologie.
 
 Themen unter anderem:
+
 - Eisresistente Serverarchitektur
 - Fishnet-Sicherheitsprotokolle
 - Die Zukunft der pinguinbetriebenen KI
 
-Verpasst nicht die Keynote von Dr. Waddles über „In die Zukunft rutschen: Geschwindigkeit und Effizienz im Pinguin-Engineering."
+Verpasst nicht die Keynote von Dr. Waddles über „In die Zukunft rutschen: Geschwindigkeit und Effizienz im Pinguin-Engineering.“
 
 🐧💻

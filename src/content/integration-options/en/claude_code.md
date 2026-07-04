@@ -7,12 +7,15 @@ url: 'https://code.claude.com/'
 logo:
   file: '@images/content/integration/claude_code.svg'
   alt: 'Claude Code Logo'
-categories: ['agents']
 ---
 
 Claude Code is Anthropic's official agentic coding tool that runs directly in your terminal. It understands your entire codebase, executes multi-step tasks autonomously, and interacts with files, tests, and version control - all through natural language. Built on the Claude AI model, it is designed for developers who want AI assistance that goes beyond simple code completion and can handle complex, real-world engineering workflows end to end.
 
 ## Example
+
+```
+ hs hdh jkhsdkjhfkjdjkf jks hkjfhkjd hjkghjk hjkgjkd jkghdjk hjkg hdkjhgjkd kjhgkjdh kjghdkfh gjkdhkj hgkjdgkk
+```
 
 You can use **Claude Code** with this Astro Stardrive Boilerplate to create super-fast and stable websites purely with AI.
 Due to the nature of this boilerplate, you do not need to care that much about the technical fundamentals underneath.

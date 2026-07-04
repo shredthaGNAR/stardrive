@@ -106,7 +106,6 @@ const integration_options = defineCollection({
           alt: z.string().optional(), // this defines the alt text for the image
         })
         .optional(),
-      categories: z.array(z.string()).optional(),
     }),
 });
 

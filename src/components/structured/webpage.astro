@@ -1,5 +1,6 @@
 ---
 import { getCleanLocaleUrl } from "@utils/i18n";
+import { themeConfig } from '~/theme.config';
 
 interface Props {
   type: "WebPage" | "FAQPage";
@@ -31,6 +32,7 @@ const publisher = Astro.props.publisher ? { "@context": "https://schema.org", ..
 
 const structuredData = {
   "@context": "https://schema.org",
+  "@id": `${themeConfig.site}/#${type.toLowerCase()}`,
   "@type": type,
   name: title,
   ...(description && { about: description }),
@@ -39,6 +41,15 @@ const structuredData = {
   author,
   creator,
   publisher,
+  isPartOf: {
+    "@id":`${themeConfig.site}/#website`
+  },
+  "potentialAction": [
+    {
+      "@type": "ReadAction",
+      "target": [`${pageUrl}`]
+    }
+  ]
 }
 ---
 

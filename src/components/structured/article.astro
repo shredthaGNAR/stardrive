@@ -25,6 +25,7 @@ const pageUrl = getCleanLocaleUrl(Astro.url, locale);
 
 const structuredData = {
   "@context": "https://schema.org",
+  "@id": `${themeConfig.site}/#article`,
   "@type": "Article",
   headline: title,
   description: description,
@@ -42,6 +43,15 @@ const structuredData = {
     name: authorName ? authorName : '',
     url: authorUrl ? authorUrl : Astro.site,
   },
+  isPartOf: {
+    "@id":`${themeConfig.site}/#website`
+  },
+  "potentialAction": [
+    {
+      "@type": "ReadAction",
+      "target": [`${pageUrl}`]
+    }
+  ]
 }
 ---
 

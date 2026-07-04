@@ -46,11 +46,11 @@ const paginationItems = generatePaginationItems(page);
     <li>
       {
         page.url.prev ? (
-          <a href={page.url.prev} aria-label={t('labels.prev')} class="bg-stone-200 dark:bg-stone-800 hover:text-primary-contrast hover:border-primary hover:bg-primary relative flex h-10 w-fit items-center justify-center rounded-s-lg border border-stone-400 px-6 hover:z-20 md:px-3">
+          <a href={page.url.prev} aria-label={t('labels.prev')} class="hover:text-primary-contrast hover:border-primary hover:bg-primary relative flex h-10 w-fit items-center justify-center rounded-s-lg border border-stone-400 bg-stone-200 px-6 hover:z-20 md:px-3 dark:bg-stone-800">
             <Icon name="heroicons:chevron-left" class="h-5 w-5" />
           </a>
         ) : (
-          <div class="bg-stone-200 dark:bg-stone-800 flex h-10 w-fit cursor-not-allowed items-center justify-center rounded-s-lg border border-stone-400 px-3 opacity-30">
+          <div class="flex h-10 w-fit cursor-not-allowed items-center justify-center rounded-s-lg border border-stone-400 bg-stone-200 px-3 opacity-30 dark:bg-stone-800">
             <Icon name="heroicons:chevron-left" class="h-5 w-5" />
           </div>
         )
@@ -63,14 +63,14 @@ const paginationItems = generatePaginationItems(page);
             <a
               href={pageNum === 1 ? getLocaleUrl('/' + baseUrl, locale) : getLocaleUrl(`/${baseUrl}/${pageNum}`, locale)}
               aria-label={t('labels.page')}
-              class:list={[pageNum === page.currentPage ? 'border-primary text-primary z-20' : 'hover:border-primary border-stone-400', 'bg-stone-200 dark:bg-stone-800 hover:text-primary-contrast hover:bg-primary relative flex h-10 w-fit items-center justify-center border px-4 font-semibold no-underline hover:z-20']}
+              class:list={[pageNum === page.currentPage ? 'border-primary text-primary z-20' : 'hover:border-primary border-stone-400', 'hover:text-primary-contrast hover:bg-primary relative flex h-10 w-fit items-center justify-center border bg-stone-200 px-4 font-semibold no-underline hover:z-20 dark:bg-stone-800']}
             >
               {pageNum}
             </a>
           </li>
           {array[index + 1] && array[index + 1] - pageNum > 1 && (
             <li class="mt-0 ml-[-2px] hidden md:block">
-              <span class="bg-stone-200 dark:bg-stone-800 relative flex h-10 w-fit items-center justify-center border border-stone-400 px-4">...</span>
+              <span class="relative flex h-10 w-fit items-center justify-center border border-stone-400 bg-stone-200 px-4 dark:bg-stone-800">...</span>
             </li>
           )}
         </>
@@ -79,11 +79,11 @@ const paginationItems = generatePaginationItems(page);
     <li class="mt-0 ml-[-2px]">
       {
         page.url.next ? (
-          <a href={page.url.next} aria-label={t('labels.next')} class="bg-stone-200 dark:bg-stone-800 hover:text-primary-contrast hover:border-primary hover:bg-primary relative flex h-10 w-fit items-center justify-center rounded-e-lg border border-stone-400 px-6 hover:z-20 md:px-3">
+          <a href={page.url.next} aria-label={t('labels.next')} class="hover:text-primary-contrast hover:border-primary hover:bg-primary relative flex h-10 w-fit items-center justify-center rounded-e-lg border border-stone-400 bg-stone-200 px-6 hover:z-20 md:px-3 dark:bg-stone-800">
             <Icon name="heroicons:chevron-right" class="h-5 w-5" />
           </a>
         ) : (
-          <div class="bg-stone-200 dark:bg-stone-800 flex h-10 w-fit cursor-not-allowed items-center justify-center rounded-e-lg border border-stone-400 px-3 opacity-30">
+          <div class="flex h-10 w-fit cursor-not-allowed items-center justify-center rounded-e-lg border border-stone-400 bg-stone-200 px-3 opacity-30 dark:bg-stone-800">
             <Icon name="heroicons:chevron-right" class="h-5 w-5" />
           </div>
         )

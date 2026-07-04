@@ -16,6 +16,7 @@ Then pick a generation path:
 Note that the webmanifest is generated dynamically from [`theme.config.ts`](../theme.config.ts) and must not be generated or duplicated anywhere else.
 
 You should end up having 6 files + optional additional dark mode variants.
+
 - favicon-96x96.png (square, 96px height, 96px width, png, transparent background if not explicitly set differently)
 - apple-touch-icon.png (square, 180px height, 180px width, png, transparent background if not explicitly set differently)
 - favicon.ico (square, 48px height, 48px width, ico, transparent background if not explicitly set differently)

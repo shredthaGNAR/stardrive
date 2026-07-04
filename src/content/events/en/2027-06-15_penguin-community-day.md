@@ -17,6 +17,7 @@ image:
 Join penguins from across Antarctica for a day of celebration, connection, and community building.
 
 **What to expect:**
+
 - **Morning**: Community breakfast and welcome ceremony
 - **Midday**: Team-building activities and ice games
 - **Afternoon**: Storytelling sessions and cultural exchange

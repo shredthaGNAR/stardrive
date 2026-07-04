@@ -403,7 +403,7 @@ function articleUrlPath(item, defaultLocale, prefixDefaultLocale) {
 function eventUrlPath(item, defaultLocale, prefixDefaultLocale) {
   const slug = collectionSlug(item);
   const usePrefix = item.locale !== defaultLocale || prefixDefaultLocale;
-  return usePrefix ? `/${item.locale}/events/${slug}` : `/events/${slug}`;
+  return usePrefix ? `/${item.locale}/events/detail/${slug}` : `/events/detail/${slug}`;
 }
 
 /**

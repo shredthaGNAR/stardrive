@@ -26,7 +26,7 @@ export const formatRange = (start: Date, end?: Date, allDay?: boolean, locale?: 
   const endFormat = new Intl.DateTimeFormat(locale ?? 'en', { year: listYear && end.getFullYear() === Number(listYear) ? undefined : 'numeric', month: 'long', day: 'numeric' });
   const endLabel = endFormat.format(end);
 
-  // same calendar day → "August 13, 2026, 15:00 – 18:00"
+  // same calendar day → "August 13, 2026, 15:00 - 18:00"
   if (start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth() && start.getDate() === end.getDate()) {
     return allDay ? startLabel : startLabel + t + ' - ' + formatTime(end);
   }

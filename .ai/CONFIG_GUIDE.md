@@ -1,12 +1,12 @@
 # Configuration Guide - Instructions
 
-You are an AI agent configuring a Stardrive (Astro) boilerplate into the user's project. 
+You are an AI agent configuring a Stardrive (Astro) boilerplate into the user's project.
 This guide mirrors the README configuration section, condensed for execution.
 It only guides on the most important steps and order of things. You might want to add additional steps in between.
 Use it to build a `PLAN.md`, then keep it as reference. Create the `PLAN.md` in the same folder (./.ai) as the `CONFIG_GUIDE` (this file).
 Interview the user wherever a choice is ambiguous.
 
-1. **Trim first.** If the project was cloned directly (not via `npm create stardrive`), follow [TRIMMING_GUIDE.md](./TRIMMING_GUIDE.md) to remove unused/demo features. With `npm create stardrive` or if already done, the TRIMMING_GUIDE.md would no longer be there. 
+1. **Trim first.** If the project was cloned directly (not via `npm create stardrive`), follow [TRIMMING_GUIDE.md](./TRIMMING_GUIDE.md) to remove unused/demo features. With `npm create stardrive` or if already done, the TRIMMING_GUIDE.md would no longer be there.
 2. **`package.json`** - update name, description, metadata to reflect the project.
 3. **`README.md`** - at minimum set the project name as the headline (for easy identification later).
 4. **Favicons** - see [FAVICON_GUIDE.md](./FAVICON_GUIDE.md) for instructions.
@@ -17,7 +17,7 @@ Interview the user wherever a choice is ambiguous.
    - If using the blog: set article settings (layout + functionality). If using the image fallback, replace [articles-fallback.jpg](../src/images/content/articles-fallback.jpg).
    - Set promo slots, or set them to `false` / drop them if unused.
    - Define how `llms.txt` is generated and set an intro text.
-7. **Webfonts** - boilerplate ships "Geist" via fontsource. If required, swap it: `npm un @fontsource/geist` then install your own.
+7. **Webfonts** - boilerplate ships "Geist" via fontsource. If required, swap it: `npm un @fontsource/geist` then install your own. Adjust the import statement at the layout level.
 8. **`./src/styles/tailwind.config.css`**:
    - Update the font section (replace/add fonts), if you swaped the font the step before.
    - Update colors (Branding / Utility). Prefer editing hex codes or adding colors; do **not** remove lines until demo content is replaced (removals break demo content).

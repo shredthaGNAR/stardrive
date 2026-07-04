@@ -2,14 +2,14 @@
 publishDate: 2026-06-29
 draft: false
 title: 'Penguin Community Day 2027'
-description: 'Une journée de célébration, de connexion et de construction communautaire pour les pingouins de toute l''Antarctique.'
+description: "Une journée de célébration, de connexion et de construction communautaire pour les pingouins de toute l'Antarctique."
 startDate: 2027-06-15T10:00:00Z
 endDate: 2027-06-15T20:00:00Z
 timeZone: 'Antarctica/South_Pole'
 location: 'South Pole Plaza, Antarctique'
 image:
   file: '@images/content/events/pengu-party.png'
-  alt: 'Pingouins célébrant ensemble lors d''un événement communautaire'
+  alt: "Pingouins célébrant ensemble lors d'un événement communautaire"
 ---
 
 **Le Community Day est arrivé !**
@@ -17,6 +17,7 @@ image:
 Rejoignez les pingouins de toute l'Antarctique pour une journée de célébration, de connexion et de construction communautaire.
 
 **À quoi s'attendre :**
+
 - **Matin** : Petit-déjeuner communautaire et cérémonie d'accueil
 - **Midi** : Activités de team building et jeux sur glace
 - **Après-midi** : Sessions de narration et échange culturel
