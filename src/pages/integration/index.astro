@@ -17,6 +17,15 @@ const entries = (await getCollection('integration_options', ({ id, data }) => {
 const types = Array.from(new Set(entries.map((e) => e.data.type))).sort((a, b) =>
   a.localeCompare(b)
 );
+
+// First entry per type, so cards link directly to an item instead of the type overview.
+const firstItemByType = new Map<string, string>();
+for (const entry of entries) {
+  const type = entry.data.type;
+  if (!firstItemByType.has(type)) {
+    firstItemByType.set(type, entry.id.split('/')[1]);
+  }
+}
 ---
 
 <Layout title={t('pages.integration.title')} description={t('pages.integration.description')}>
@@ -25,7 +34,7 @@ const types = Array.from(new Set(entries.map((e) => e.data.type))).sort((a, b) =
   <div class="my-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
     {
       types.map((type) => (
-        <a href={getLocaleUrl(`/integration/${type}`, locale)} class="group flex h-full rounded-lg no-underline drop-shadow hover:drop-shadow-xl">
+        <a href={getLocaleUrl(`/integration/${type}/${firstItemByType.get(type)}`, locale)} class="group flex h-full rounded-lg no-underline drop-shadow hover:drop-shadow-xl">
           <span class="text-text dark:text-text-dark from-primary-light to-primary-light/30 dark:from-primary-darker dark:to-primary-darker/50 hover:border-primary flex h-auto w-full grow flex-col justify-between rounded-lg border border-stone-400 bg-white px-5 py-4 text-sm font-normal no-underline hover:bg-linear-to-tr dark:border-stone-700 dark:bg-stone-900">
             <span class="block">
               <span class="xs:text-lg mb-4 block font-semibold text-balance">{t(`pages.integration-${type}.title`)}</span>

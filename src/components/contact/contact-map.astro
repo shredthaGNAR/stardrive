@@ -29,6 +29,37 @@ const pmtilesUrl = "/map/office.pmtiles";
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
   import { leafletLayer } from 'protomaps-leaflet';
+  import { PMTiles } from 'pmtiles';
+
+  // Cloudflare Pages does not support HTTP Byte Serving (Range requests) for
+  // static assets — it returns the full file with status 200 instead of 206
+  // Partial Content, which breaks the default FetchSource.  For a small
+  // archive like this (~2.4 MB) we fetch the whole file once and serve byte
+  // ranges from an in-memory ArrayBuffer, sidestepping Range requests entirely.
+  // Cache the buffer so repeated inits (e.g. view transitions) don't re-fetch.
+  let pmtilesBuffer: ArrayBuffer | null = null;
+  let pmtilesBufferUrl = '';
+
+  async function loadPmtiles(url: string): Promise<ArrayBuffer> {
+    if (pmtilesBuffer && pmtilesBufferUrl === url) return pmtilesBuffer;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to load map archive: ${res.status}`);
+    pmtilesBuffer = await res.arrayBuffer();
+    pmtilesBufferUrl = url;
+    return pmtilesBuffer;
+  }
+
+  // Minimal in-memory Source satisfying the pmtiles Source interface.
+  function memorySource(url: string, data: ArrayBuffer) {
+    return {
+      getKey: () => url,
+      getBytes: (offset: number, length: number) => {
+        const end = Math.min(offset + length, data.byteLength);
+        const slice = data.slice(offset, end);
+        return Promise.resolve({ data: slice });
+      },
+    };
+  }
 
   function initContactMap() {
     const el = document.getElementById('contact-map');
@@ -58,16 +89,28 @@ const pmtilesUrl = "/map/office.pmtiles";
 
     const isDark = () => document.documentElement.classList.contains('dark');
 
-    const buildLayer = (): L.GridLayer =>
-      leafletLayer({
-        url: pmtilesUrl,
+    // Build the layer from an in-memory PMTiles archive so we never rely on
+    // HTTP Range requests (unsupported by Cloudflare Pages).
+    // Note: protomaps-leaflet bundles pmtiles@3 while the project uses v4;
+    // the runtime Source/getZxy interfaces are compatible, so we cast past
+    // the type mismatch.
+    const buildLayer = async (): Promise<L.GridLayer> => {
+      const buffer = await loadPmtiles(pmtilesUrl);
+      const source = new PMTiles(memorySource(pmtilesUrl, buffer));
+      return leafletLayer({
+        url: source as unknown as string,
         flavor: isDark() ? 'dark' : 'light',
         lang: document.documentElement.lang || 'en',
         attribution: '&copy; <a href="https://openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &middot; <a href="https://protomaps.com" target="_blank" rel="noopener">Protomaps</a>',
       }) as unknown as L.GridLayer;
+    };
 
-    let tileLayer: L.GridLayer = buildLayer();
-    tileLayer.addTo(map);
+    // Load archive → build layer → add to map.  Show a placeholder until ready.
+    let tileLayer: L.GridLayer | null = null;
+    buildLayer().then((layer) => {
+      tileLayer = layer;
+      layer.addTo(map);
+    });
 
     // Branded SVG pin (no external marker image assets).
     const pin = L.divIcon({
@@ -82,9 +125,11 @@ const pmtilesUrl = "/map/office.pmtiles";
 
     // Re-render tiles when the user toggles light/dark mode.
     const themeObserver = new MutationObserver(() => {
-      map.removeLayer(tileLayer);
-      tileLayer = buildLayer();
-      tileLayer.addTo(map);
+      if (tileLayer) map.removeLayer(tileLayer);
+      buildLayer().then((layer) => {
+        tileLayer = layer;
+        layer.addTo(map);
+      });
     });
     themeObserver.observe(document.documentElement, {
       attributes: true,

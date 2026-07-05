@@ -51,7 +51,7 @@ const items = (await getCollection('integration_options', ({ id, data }) => {
                   {item.data.logo?.file ? (
                     <Image src={item.data.logo.file} alt={item.data.logo.alt ?? ''} class="h-full w-full object-contain" draggable="false" priority />
                   ) : item.data.logo?.url ? (
-                    <Image src={item.data.logo.url} alt={item.data.logo.alt ?? ''} class="h-full w-full object-contain" draggable="false" priority inferSize />
+                    <img src={item.data.logo.url} alt={item.data.logo.alt ?? ''} class="h-full w-full object-contain" draggable="false" />
                   ) : (
                     <Icon name="heroicons:puzzle-piece" class="h-5 w-5 text-stone-500 dark:text-stone-400" />
                   )}
