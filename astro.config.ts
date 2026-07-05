@@ -107,7 +107,7 @@ export default defineConfig({
     // The pre-bundling mitigates the issue for both dev and production, so we do it here.
     // see https://docs.astro.build/en/guides/integrations-guide/cloudflare/#some-dependencies-might-need-to-be-pre-compiled
     optimizeDeps: {
-      include: ['debug', 'ms', 'reading-time'],
+      include: ['debug', 'ms', 'reading-time', 'fdir', 'tinyglobby', 'picomatch'],
     },
   },
 
