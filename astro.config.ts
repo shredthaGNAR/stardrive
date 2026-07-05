@@ -97,7 +97,29 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      // The `glob()` content loader (astro/loaders) pulls in `fdir` -> `tinyglobby` -> `picomatch`.
+      // `fdir`'s bundled output calls `createRequire(import.meta.url)` at module top-level. In the
+      // workerd runtime (on-demand SSR routes) `import.meta.url` is not a file URL, so this throws
+      // "The argument 'path' ... Received 'undefined'" and 500s every on-demand route. The only
+      // use of the resulting `__require` is a build-time probe for `picomatch` inside a try/catch
+      // (it sets `pm = null` when unavailable), so stubbing it out at build time is safe.
+      // `optimizeDeps.include` cannot fix this because it only affects the dev server, not the
+      // Rollup server bundle that ships to Cloudflare.
+      {
+        name: 'neutralize-create-require-for-workerd',
+        enforce: 'post',
+        apply: 'build',
+        renderChunk(code) {
+          if (!code.includes('createRequire(import.meta.url)')) return null;
+          return {
+            code: code.replaceAll('createRequire(import.meta.url)', '() => ({ resolve: () => { throw new Error("no require"); }, })'),
+            map: null,
+          };
+        },
+      },
+    ],
     // The Cloudflare adapter renders on-demand routes (e.g. an unmatched URL hitting the 404 page)
     // inside the workerd runtime during `astro dev`. Some transitive CommonJS deps (e.g. debug -> ms, pulled
     // in via astro-icon -> @iconify/utils) reference the Node-only `module` global, which throws
@@ -107,7 +129,7 @@ export default defineConfig({
     // The pre-bundling mitigates the issue for both dev and production, so we do it here.
     // see https://docs.astro.build/en/guides/integrations-guide/cloudflare/#some-dependencies-might-need-to-be-pre-compiled
     optimizeDeps: {
-      include: ['debug', 'ms', 'reading-time', 'fdir', 'tinyglobby', 'picomatch'],
+      include: ['debug', 'ms', 'reading-time', 'fdir > picomatch', 'expressive-code > postcss'],
     },
   },
 
