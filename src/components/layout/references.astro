@@ -99,8 +99,43 @@ const t = useTranslations(locale);
     container.appendChild(track);
 
     let resizeTimer: number | undefined;
+    // Cache the last measured widths so we only rebuild when something that
+    // actually affects the marquee changes. Mobile browsers fire `resize`
+    // when the URL bar collapses/expands (a height-only change)
+    let lastUnitWidth = 0;
+    let lastViewportWidth = 0;
 
     const build = () => {
+      const viewportWidth = container.getBoundingClientRect().width;
+      if (viewportWidth <= 0) return;
+
+      // Measure the unit width from a temporary clone without disturbing the
+      // running animation. This lets us decide whether a rebuild is needed.
+      const probe = document.createElement('div');
+      probe.className = 'marquee-unit';
+      probe.style.visibility = 'hidden';
+      probe.style.position = 'absolute';
+      probe.style.pointerEvents = 'none';
+      probe.appendChild(originalContent.cloneNode(true));
+      track.appendChild(probe);
+      const unitWidth = probe.getBoundingClientRect().width;
+      probe.remove();
+
+      if (unitWidth <= 0) return;
+
+      // Skip rebuild if neither the unit width nor the viewport width changed
+      // since the last build. This is the key fix for the mobile scroll jump:
+      // URL-bar show/hide fires resize but does not change these widths.
+      if (
+        unitWidth === lastUnitWidth &&
+        viewportWidth === lastViewportWidth &&
+        track.children.length > 0
+      ) {
+        return;
+      }
+      lastUnitWidth = unitWidth;
+      lastViewportWidth = viewportWidth;
+
       track.style.animation = 'none';
       track.replaceChildren();
 
@@ -108,10 +143,6 @@ const t = useTranslations(locale);
       firstUnit.className = 'marquee-unit';
       firstUnit.appendChild(originalContent.cloneNode(true));
       track.appendChild(firstUnit);
-
-      const unitWidth = firstUnit.getBoundingClientRect().width;
-      const viewportWidth = container.getBoundingClientRect().width;
-      if (unitWidth <= 0 || viewportWidth <= 0) return;
 
       const copies = Math.max(2, Math.ceil((viewportWidth + unitWidth) / unitWidth) + 1);
       for (let i = 1; i < copies; i++) {
