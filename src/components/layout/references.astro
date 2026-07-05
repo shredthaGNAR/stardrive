@@ -180,13 +180,15 @@ const t = useTranslations(locale);
   }
 
   function initMarquees() {
-    destroyMarquees();
     document.querySelectorAll<HTMLElement>('.make-marquee').forEach((el) => {
+      if (el.querySelector(':scope > .marquee-track')) return;
       const cleanup = setupMarquee(el);
       if (cleanup) cleanups.push(cleanup);
     });
   }
 
+  // Initialize as early as possible.
+  initMarquees();
   document.addEventListener('astro:page-load', initMarquees);
   document.addEventListener('astro:before-swap', destroyMarquees);
 </script>
