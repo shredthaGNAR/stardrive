@@ -39,7 +39,7 @@ const hideToC = tocDepth === 0 || reducedHeadings.length === 0;
 ---
 
 <div id="start" class="flex flex-col">
-  {imageFile ? <Image src={imageFile} sizes="(max-width: 767px) 528px, (max-width: 975px) 710px, 912px" alt={entry.data.image?.alt ? entry.data.image?.alt : ''} id="title-image" transition:name={'image-' + entry.id} draggable="false" priority /> : entry.data.image?.url ? <Image src={entry.data.image.url} alt={entry.data.image?.alt ? entry.data.image?.alt : ''} id="title-image" transition:name={'image-' + entry.id} draggable="false" priority inferSize /> : null}
+  {imageFile ? <Image src={imageFile} alt={entry.data.image?.alt ? entry.data.image?.alt : ''} id="title-image" transition:name={'image-' + entry.id} draggable="false" priority /> : entry.data.image?.url ? <Image src={entry.data.image.url} alt={entry.data.image?.alt ? entry.data.image?.alt : ''} id="title-image" transition:name={'image-' + entry.id} draggable="false" priority inferSize /> : null}
 
   <h1 class="max-w-3xl px-2 text-3xl font-bold italic select-none sm:py-5 sm:text-5xl md:px-6">{entry.data.title}</h1>
 
