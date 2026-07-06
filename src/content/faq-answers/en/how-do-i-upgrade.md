@@ -9,11 +9,9 @@ Do due its boilerplate character, upgrading a Stardrive project to the latest St
 
 You can update by pulling in the latest version from its GitHub repository.
 
-Do it manually or run `npm run upgrade`.
-
 However, mind that based on how much you have changed, you can easily run into conflicts, which can block this process completely.
 
-In this case, you would need to do it manually, by comparing any [changes](https://github.com/Peltmonger/stardrive/CHANGELOG.md) with your version and update things one by one. You might want to give this as a task to an AI coding agent, how would do it for you.
+In this case, you would need to do it manually, by comparing any [changes](https://github.com/Peltmonger/stardrive/CHANGELOG.md) with your version and update things one by one. You might want to give this as a task to an AI coding agent, who would do it for you.
 
 In most cases, you do not necessarily need to upgrade the Stardrive version, but simply need to upgrade the underlying Astro package.
 

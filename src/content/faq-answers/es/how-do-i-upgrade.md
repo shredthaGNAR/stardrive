@@ -9,8 +9,6 @@ Debido a su carácter de plantilla, actualizar un proyecto Stardrive a la últim
 
 Puedes actualizarlo incorporando la última versión desde el repositorio de GitHub (mediante `git pull`).
 
-Puedes ejecutar `npm run upgrade` para iniciar el proceso de forma automatizada.
-
 Sin embargo, ten en cuenta que, según la cantidad de cambios que hayas realizado, puedes encontrarte fácilmente con conflictos que pueden bloquear este proceso por completo.
 
 En ese caso, tendrías que adaptar el código manualmente, comparando los [cambios](https://github.com/Peltmonger/stardrive/CHANGELOG.md) actuales con tu versión y actualizando los archivos uno por uno. También puedes encomendar esta tarea a un agente de codificación con IA, que la realizará por ti.

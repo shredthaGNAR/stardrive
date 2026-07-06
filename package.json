@@ -12,8 +12,6 @@
     "preview": "astro preview",
     "prebuild": "npm run sync-version",
     "postbuild": "scripts/postbuild.js",
-    "upgrade": "node scripts/upgrade.js",
-    "upgrade:astro": "npx @astrojs/upgrade",
     "purge:cloudflare": "node scripts/purgeCloudflareCache.js",
     "check": "npm run check:astro && npm run check:type && npm run check:eslint && npm run check:prettier",
     "check:astro": "astro check",

@@ -9,8 +9,6 @@ Aufgrund seines Boilerplate-Charakters kann das Upgrade eines Stardrive-Projekts
 
 Du kannst es aktualisieren, indem du die neueste Version aus dem GitHub-Repository einspielst (via `git pull`).
 
-Du kannst `npm run upgrade` ausführen, um den Prozess automatisiert anzustoßen.
-
 Beachte jedoch, dass du je nachdem, wie viel du geändert hast, leicht in Konflikte geraten kannst, die diesen Prozess vollständig blockieren können.
 
 In diesem Fall müsstest du den Code manuell anpassen, indem du die aktuellen [Änderungen](https://github.com/Peltmonger/stardrive/CHANGELOG.md) mit deiner Version vergleichst und Dateien einzeln aktualisierst. Du kannst diese Aufgabe auch einem KI-Coding-Agent übergeben, der sie für dich erledigt.

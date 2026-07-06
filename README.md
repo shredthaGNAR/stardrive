@@ -221,8 +221,7 @@ Adjust this based on your project, personal taste, and coding guidelines!
 │   ├── postbuild.js              # Post-build hook (runs the steps below)
 │   ├── processSocialImages.js    # Auto-generates social preview images for articles
 │   ├── purgeCloudflareCache.js   # Purges CF cache after deploy (needs CF_PURGE_* env vars)
-│   ├── syncVersion.js            # ⛔ Demo/repo only - delete in your project
-│   └── upgrade.js                # Helper to upgrade the boilerplate
+│   └── syncVersion.js            # ⛔ Demo/repo only - delete in your project
 │
 ├── types/                        # Global type definitions
 │
