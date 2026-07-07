@@ -1,4 +1,5 @@
 import { defineConfig, svgoOptimizer } from 'astro/config';
+import type { Config } from 'svgo';
 
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
@@ -16,6 +17,51 @@ import cloudflare from '@astrojs/cloudflare';
 export const sitemap_i18n = {
   defaultLocale: themeConfig.i18n.defaultLocale,
   locales: themeConfig.i18n.locales.reduce((acc, lang) => ({ ...acc, [lang]: lang }), {}),
+};
+
+// Shared SVGO config used by the experimental svgOptimizer, astro-icon, and astro-compress.
+const svgoConfig: Config = {
+  multipass: true,
+  floatPrecision: 5,
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          cleanupIds: false,
+          inlineStyles: false,
+          mergeStyles: false,
+          removeHiddenElems: false,
+          convertShapeToPath: false,
+          convertEllipseToCircle: false,
+          convertPathData: false,
+          convertTransform: {
+            degPrecision: 1,
+            transformPrecision: 3,
+          },
+          removeEmptyAttrs: false,
+          removeDesc: false,
+        },
+      },
+    },
+    'removeXMLNS',
+    'convertStyleToAttrs',
+    'removeRasterImages',
+    'reusePaths',
+    {
+      name: 'removeXlink',
+      params: { includeLegacy: true },
+    },
+    {
+      name: 'prefixIds',
+      params: {
+        delim: '_',
+        prefix: () => Math.random().toString(36).slice(2, 8),
+        prefixIds: true,
+        prefixClassNames: false,
+      },
+    },
+  ],
 };
 
 // https://astro.build/config
@@ -51,49 +97,7 @@ export default defineConfig({
     // Always include svg images as components or <img> tags, never via Astro's <Image> component. The latter one is not supported by Cloudflare and might also break in other scenarios.
     // To auto-optimize SVGs, we use the svgo optimizer. If your svg files look strange, you might want to tweak its configuration or even disable it.
     // See https://docs.astro.build/en/reference/experimental-flags/svg-optimization/
-    svgOptimizer: svgoOptimizer({
-      multipass: true,
-      floatPrecision: 5,
-      plugins: [
-        {
-          name: 'preset-default',
-          params: {
-            overrides: {
-              cleanupIds: false,
-              inlineStyles: false,
-              mergeStyles: false,
-              removeHiddenElems: false,
-              convertShapeToPath: false,
-              convertEllipseToCircle: false,
-              convertPathData: false,
-              convertTransform: {
-                degPrecision: 1,
-                transformPrecision: 3,
-              },
-              removeEmptyAttrs: false,
-              removeDesc: false,
-            },
-          },
-        },
-        'removeXMLNS',
-        'convertStyleToAttrs',
-        'removeRasterImages',
-        'reusePaths',
-        {
-          name: 'removeXlink',
-          params: { includeLegacy: true },
-        },
-        {
-          name: 'prefixIds',
-          params: {
-            delim: '_',
-            prefix: () => Math.random().toString(36).slice(2, 8),
-            prefixIds: true,
-            prefixClassNames: false,
-          },
-        },
-      ],
-    }),
+    svgOptimizer: svgoOptimizer(svgoConfig),
   },
 
   vite: {
@@ -159,7 +163,9 @@ export default defineConfig({
       customPages: getOnDemandSitemapPages(),
       customSitemaps: [themeConfig.site.replace(/\/+$/, '') + '/dynamic-events-sitemap.xml'],
     }),
-    icon(),
+    icon({
+      svgoOptions: svgoConfig,
+    }),
     // Expressive Code options live in `ec.config.mjs` in the project root, so both the
     // Markdown integration and the `<Code>` component share the same config.
     astroExpressiveCode(),
@@ -169,6 +175,9 @@ export default defineConfig({
         'html-minifier-terser': {
           removeAttributeQuotes: false,
         },
+      },
+      SVG: {
+        svgo: svgoConfig,
       },
     }),
   ],
