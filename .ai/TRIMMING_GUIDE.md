@@ -55,11 +55,14 @@ Ask the user whether they want to keep the blog (built on Astro's content collec
 - `./scripts/processSocialImages.js`
 - `./public/data/articles`
 
+Then uninstall the package "reading-time": `npm un reading-time` (with npm as package manager).
+
 Then edit:
 
 - `./scripts/postbuild.js` - remove the line `await import('./processSocialImages.js');`
 - `./src/content.config.ts` - remove the `const articles` declaration and remove `articles` from the export statement at the bottom.
 - `./theme.config.ts` - remove the `articles` section, and remove `addArticles` from the `llms` settings.
+- `./astro.config.ts` - remove "reading-time" from the Vite `optimizeDeps`includes.
 
 ## Step 3 - FAQ feature (optional)
 
@@ -88,6 +91,7 @@ Ask the user whether they want to keep the integration catalog (also uses conten
 Then edit:
 
 - `./src/content.config.ts` - remove the `const integration_options` declaration and `integration_options` from the export statement at the bottom
+- `./theme.config.ts` - set `onDemandRenderedCollections` and `llms.excludePagesPattern` to `[]` as the default is about integrations
 
 ## Step 5 - Events feature (optional)
 
@@ -108,9 +112,10 @@ Then edit:
 - `./theme.config.ts` - remove the `dynamicEvents` section and `addEvents` from the `llms` settings.
 - `./astro.config.ts` - remove the `customSitemaps:` line in the i18n block.
 
-## Step 6 - Navigation cleanup (always, if anything was removed)
+## Step 6 - Cleanup (always, if anything was removed)
 
-Edit `./src/components/layout/nav/footer-nav.astro` and remove navigation entries that point to features which were deleted. Inspect the file and remove only the links for features that no longer exist.
+- Navigation: Edit `./src/components/layout/nav/footer-nav.astro` and remove navigation entries that point to features which were deleted. Inspect the file and remove only the links for features that no longer exist.
+- `./src/content.config.ts`: Set content to `export const collections = {};`.
 
 ## Step 7 - Cloudflare specifics (optional)
 
@@ -125,7 +130,7 @@ Ask the user whether they will host on Cloudflare Workers (the boilerplate is pr
 Then edit `./astro.config.ts` and remove:
 
 - `import cloudflare from '@astrojs/cloudflare';`
-- the `adapter: cloudflare({ imageService: 'cloudflare' }), //(...)` line
+- the `adapter: cloudflare({ (...) })` block
 
 Edit `./package.json` and remove the `purge:cloudflare` script.
 
