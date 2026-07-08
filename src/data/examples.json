@@ -1,5 +1,5 @@
 {
-  "_comment": "Websites built with Astro Stardrive. Add yours via a pull request: append an object with 'title', 'description' and 'url'. Entries are sorted alphabetically by title automatically, so order here does not matter. Requirement: your site must still expose the <meta name=\"generator\" content=\"Astro StarDrive\" /> tag (present by default) so it can be verified. No links to content unsuitable for children (e.g. gambling, sexual/pornographic, or alcohol-related).",
+  "_comment": "Websites built with Astro Stardrive. Add yours via a pull request: append an object with 'title', 'description' and 'url'. Entries are sorted alphabetically by title automatically, so order here does not matter. Requirement: your site must still expose the <meta name=\"generator\" content=\"Astro Stardrive\" /> tag (present by default) so it can be verified. No links to content unsuitable for children (e.g. gambling, sexual/pornographic, or alcohol-related).",
   "sites": [
     {
       "title": "Astro Stardrive",

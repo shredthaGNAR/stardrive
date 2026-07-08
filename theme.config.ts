@@ -15,8 +15,8 @@ export const themeConfig: ThemeConfig = {
   primaryColor: '#f26430', // mind to also update the Tailwind config if you change this!
   themeColor: '#50168a',
   generateWebmanifest: true,
-  name: 'Astro StarDrive',
-  shortName: 'StarDrive',
+  name: 'Astro Stardrive',
+  shortName: 'Stardrive',
   darkMode: true,
   robots: import.meta.env?.ROBOTS || 'index, follow',
   xHandle: 'jekuer',
