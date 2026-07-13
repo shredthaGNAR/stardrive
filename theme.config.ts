@@ -19,7 +19,7 @@ export const themeConfig: ThemeConfig = {
   shortName: 'Stardrive',
   darkMode: true,
   robots: import.meta.env?.ROBOTS || 'index, follow',
-  xHandle: 'jekuer',
+  xHandle: 'example',
 
   // Structured data
   author: {
@@ -31,7 +31,7 @@ export const themeConfig: ThemeConfig = {
   publisher: {
     type: 'Organization',
     name: 'ACME Inc.',
-    url: 'https://www.firefox.com',
+    url: 'https://en.wikipedia.org/wiki/Acme_Corporation',
     image: '',
   },
 
@@ -58,8 +58,8 @@ export const themeConfig: ThemeConfig = {
           url: 'https://de.wikipedia.org/wiki/Mustermann#Max_Mustermann',
         },
         publisher: {
-          name: 'ACME GmbH',
-          url: 'https://www.firefox.com/de',
+          name: 'ACME',
+          url: 'https://de.wikipedia.org/wiki/ACME',
         },
       },
     },
@@ -88,7 +88,7 @@ export const themeConfig: ThemeConfig = {
     },
     social: {
       // default values - can be overridden at the Single component level
-      xHandle: 'jekuer', // to be added as "via @handle" in the tweet
+      xHandle: 'example', // to be added as "via @handle" in the tweet
       buttons: {
         email: true,
         facebook: true,
