@@ -117,12 +117,12 @@ const astroFeatures: Feature[] = [
             <ul class="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
               {group.features.map((feature) => (
                 <li class="m-0">
-                  <details class="feature-card group hover:border-primary dark:hover:border-primary-light h-full rounded-lg border border-stone-300 bg-white transition-shadow hover:shadow-md dark:border-stone-700 dark:bg-stone-900">
+                  <details class="feature-card group hover:border-primary dark:hover:border-primary-light rounded-lg border border-stone-300 bg-white transition-shadow hover:shadow-md dark:border-stone-700 dark:bg-stone-900">
                     <summary class="flex cursor-pointer list-none items-start gap-3 p-4 select-none">
                       <span class="bg-primary-light/15 text-primary dark:bg-primary-darker dark:text-primary-light mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md">
                         <Icon name={feature.icon} class="h-5 w-5" aria-hidden="true" />
                       </span>
-                      <span class="flex min-w-0 grow flex-col">
+                      <span class="flex min-h-22 min-w-0 grow flex-col">
                         <span class="font-semibold">{t(`features-content.${feature.slug}-title`)}</span>
                         <span class="text-sm text-stone-600 dark:text-stone-300">{t(`features-content.${feature.slug}-tagline`)}</span>
                       </span>
@@ -160,12 +160,12 @@ const astroFeatures: Feature[] = [
       {
         astroFeatures.map((feature) => (
           <li class="m-0">
-            <details class="feature-card group hover:border-secondary dark:hover:border-secondary-light h-full rounded-lg border border-stone-300 bg-white transition-shadow hover:shadow-md dark:border-stone-700 dark:bg-stone-900">
+            <details class="feature-card group hover:border-secondary dark:hover:border-secondary-light rounded-lg border border-stone-300 bg-white transition-shadow hover:shadow-md dark:border-stone-700 dark:bg-stone-900">
               <summary class="flex cursor-pointer list-none items-start gap-3 p-4 select-none">
                 <span class="bg-secondary-light/15 text-secondary dark:bg-secondary-dark mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md dark:text-white/50">
                   <Icon name={feature.icon} class="h-5 w-5" aria-hidden="true" />
                 </span>
-                <span class="flex min-w-0 grow flex-col">
+                <span class="flex min-h-22 min-w-0 grow flex-col">
                   <span class="font-semibold">{t(`features-content.${feature.slug}-title`)}</span>
                   <span class="text-sm text-stone-600 dark:text-stone-300">{t(`features-content.${feature.slug}-tagline`)}</span>
                 </span>
