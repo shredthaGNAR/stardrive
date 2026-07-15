@@ -75,7 +75,8 @@ const groupId = "codetabs-" + Math.random().toString(36).slice(2, 9);
           const selected = i === index;
           tab.setAttribute('aria-selected', selected ? 'true' : 'false');
           tab.tabIndex = selected ? 0 : -1;
-          panels[i].hidden = !selected;
+          // eslint-disable-next-line security/detect-object-injection -- i is a bounded array index
+          panels[i]!.hidden = !selected;
         });
       };
 
@@ -90,7 +91,8 @@ const groupId = "codetabs-" + Math.random().toString(36).slice(2, 9);
           if (next === -1) return;
           event.preventDefault();
           select(next);
-          tabs[next].focus();
+          // eslint-disable-next-line security/detect-object-injection -- next is a bounded array index
+          tabs[next]!.focus();
         });
       });
     });

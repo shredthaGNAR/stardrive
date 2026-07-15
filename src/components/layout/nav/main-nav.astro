@@ -155,7 +155,11 @@ const navLinks: NavItem[] = [
         'click',
         (e) => {
           // e.detail === 0 means keyboard activation (Enter/Space); focus first item only then
-          panel.hidden ? openDropdown(panel, trigger, e.detail === 0) : closeDropdown();
+          if (panel.hidden) {
+            openDropdown(panel, trigger, e.detail === 0);
+          } else {
+            closeDropdown();
+          }
         },
         { signal },
       );

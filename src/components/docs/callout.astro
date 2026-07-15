@@ -20,7 +20,7 @@ interface Props {
 
 const { variant = "note", title, class: className = "" } = Astro.props;
 
-const variants: Record<Variant, { icon: string; box: string; iconWrap: string }> = {
+const variants = {
   tip: {
     icon: "heroicons:light-bulb",
     box: "border-primary/30 bg-primary-light/10 dark:border-primary/40 dark:bg-primary-darker/30",
@@ -41,8 +41,9 @@ const variants: Record<Variant, { icon: string; box: string; iconWrap: string }>
     box: "border-secondary/30 bg-secondary-light/10 dark:border-secondary-light/40 dark:bg-secondary-dark/30",
     iconWrap: "bg-secondary/15 text-secondary dark:bg-secondary-dark dark:text-secondary-light",
   },
-};
+} as const satisfies Record<Variant, { icon: string; box: string; iconWrap: string }>;
 
+// eslint-disable-next-line security/detect-object-injection -- variant is a static union key
 const style = variants[variant];
 ---
 

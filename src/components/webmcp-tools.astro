@@ -164,7 +164,7 @@ const payload = hasAnyTool ? { blog, faq, labels } : null;
     labels: Record<string, string>;
   }
 
-  let hasAnyTool = document.querySelector<HTMLElement>('[data-has-tools]')?.dataset.hasTools === 'true';
+  const hasAnyTool = document.querySelector<HTMLElement>('[data-has-tools]')?.dataset.hasTools === 'true';
 
   if (hasAnyTool) {
     function matches(value: string, list: TaggedItem[], candidate: string): boolean {

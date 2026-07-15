@@ -94,7 +94,7 @@ const { locale, button, tabIndex = 0, shrink = true, isHome, ctaButton, github, 
     updateHeaderShrink();
   }
 
-  let isShrink = document.querySelector<HTMLElement>('.header-content-inner')?.dataset.shrink === 'true';
+  const isShrink = document.querySelector<HTMLElement>('.header-content-inner')?.dataset.shrink === 'true';
   if (isShrink) {
     setupHeaderShrink();
     document.addEventListener('astro:page-load', setupHeaderShrink);

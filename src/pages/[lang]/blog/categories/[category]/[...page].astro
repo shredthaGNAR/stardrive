@@ -15,16 +15,16 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
     // only show articles that are not drafts and mind locale
     return !data.draft && !id.startsWith(themeConfig.i18n.defaultLocale + '/');
   }) as CollectionEntry<'articles'>[]);
-  const catsByLang = allArticles.reduce<Record<string, Set<string>>>((acc, article) => {
+  const catsByLang = allArticles.reduce<Map<string, Set<string>>>((acc, article) => {
     const lang = article.id.split('/')[0];
     const cats = article.data.categories ?? [];
-    if (!acc[lang]) acc[lang] = new Set();
-    cats.forEach(cat => acc[lang].add(cat));
+    if (!acc.has(lang)) acc.set(lang, new Set());
+    cats.forEach(cat => acc.get(lang)!.add(cat));
     return acc;
-  }, {});
+  }, new Map());
 
   // foreach lang and category, get all articles with that category and language
-  return Object.entries(catsByLang).flatMap(([lang, cats]) => 
+  return [...catsByLang.entries()].flatMap(([lang, cats]) => 
     Array.from(cats).flatMap(category => {
       const localeArticles = allArticles.filter(article => article.id.startsWith(lang + '/') && article.data.categories?.includes(category));
       return paginate(localeArticles, {

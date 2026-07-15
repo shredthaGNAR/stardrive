@@ -19,7 +19,8 @@ const isTranslated = await checkTranslatedPath(locale, noi18n, collection, conte
 const cleanPath = getUrlWithoutLocale(Astro.url, locale);
 const basePath = cleanPath.split('/').slice(0, -1).join('/');
 
-const i18nUrls = await Promise.all(themeConfig.i18n.locales.filter(code => isTranslated[code]).map(async (code) => ({
+const translated: Record<string, boolean> = isTranslated as Record<string, boolean>;
+const i18nUrls = await Promise.all(themeConfig.i18n.locales.filter(code => translated[code] /* eslint-disable-line security/detect-object-injection -- code is a static locale key */).map(async (code) => ({
   url: (collection && contentId) ? await getLocaleUrlWithContent(contentId, collection, code, true, basePath) : getCleanLocaleUrl(Astro.url, locale, code),
   lang: code as HrefLang
 })));

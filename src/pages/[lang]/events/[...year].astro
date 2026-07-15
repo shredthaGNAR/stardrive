@@ -95,8 +95,8 @@ const hasMultipleYears = sortedAvailableYears.length > 1;
 // This would be the Prokey of the Event Group at Add to Calendar PRO, which is set to the subscription mode.
 // If you connected the events to Add to Calendar PRO filtering for a group, this usually would be it.
 // Mind this file's copy at the [lang] folder, which is used for the localized version of this page.
-let customSubscribeProkey;
-//customSubscribeProkey = 'Place-your-key-here'; // <-- uncomment and set your Prokey here if you want to override the default behavior
+const customSubscribeProkey = undefined as string | undefined;
+//const customSubscribeProkey = 'Place-your-key-here'; // <-- uncomment and set your Prokey here if you want to override the default behavior
 const subscribeProkey = customSubscribeProkey ? customSubscribeProkey : themeConfig.dynamicEvents?.filterBy?.group ? themeConfig.dynamicEvents.filterBy.group : undefined;
 
 ---

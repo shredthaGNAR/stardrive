@@ -1,12 +1,13 @@
 ---
 import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import { useTranslations } from "@utils/i18n";
 import "@styles/markdown.css";
 
 interface Props {
   locale?: string;
-  items: { entry: CollectionEntry<'faq_answers'>; Content: any }[];
+  items: { entry: CollectionEntry<'faq_answers'>; Content: AstroComponentFactory }[];
   categories: string[];
 }
 

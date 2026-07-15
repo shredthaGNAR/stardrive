@@ -18,6 +18,11 @@ const basePath = cleanPath.split('/').slice(0, -1).join('/');
 const t = useTranslations(locale);
 
 const isTranslated = await checkTranslatedPath(locale, noi18n, collection, contentId);
+const translatedMap = new Map<string, boolean>(Object.entries(isTranslated as Record<string, boolean>));
+const languageAvailability = new Map<string, boolean>();
+for (const code of Object.keys(themeConfig.i18n.languages)) {
+  languageAvailability.set(code, translatedMap.get(code) ?? false);
+}
 const languageUrls = await Promise.all(
   Object.entries(themeConfig.i18n.languages).map(async ([code]) => ({
     code,
@@ -37,7 +42,7 @@ const languageUrls = await Promise.all(
         {
           Object.entries(themeConfig.i18n.languages).map(([languageCode, label]) => (
             <li class="m-0 border-stone-300 px-4 py-5 not-first:border-t dark:border-stone-700">
-              {!isTranslated[languageCode] || languageCode === locale ? (
+              {!languageAvailability.get(languageCode) || languageCode === locale ? (
                 <>
                   <span class="cursor-not-allowed p-2 text-xl italic opacity-85">{label}</span>
                   <span class="text-xs italic opacity-50">{languageCode === locale ? t('i18n.current-language') : t('i18n.noi18n')}</span>

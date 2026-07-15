@@ -51,6 +51,7 @@ function resolveTaxed(amount: number, withTax: boolean): number {
 function formatParts(amount: number) {
   const fixed = amount.toFixed(currency.decimals);
   const [whole, decimals = ""] = fixed.split(".");
+  // eslint-disable-next-line security/detect-unsafe-regex -- simple digit grouping, no ReDoS risk
   const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u2009");
   return {
     symbol: currency.symbol,
@@ -172,7 +173,7 @@ const plans = cfg.plans.map((plan) => {
     unavailablePeriods.length > 0 && availablePeriods.length > 0
       ? t("pricing-content.only-available-for").replace(
           "{periods}",
-          availablePeriods.map((p) => t(`pricing-content.${periodLabelKey[p]}`)).join(", "),
+          availablePeriods.map((p) => t(`pricing-content.${(periodLabelKey as Record<PricingPeriod, string>)[p] /* eslint-disable-line security/detect-object-injection -- p is a static union key */}`)).join(", "),
         )
       : "";
   const cta = plan.cta ?? cfg.defaultCta;
@@ -201,7 +202,7 @@ const plans = cfg.plans.map((plan) => {
               data-period={period}
               aria-pressed={period === initialPeriod ? 'true' : 'false'}
             >
-              {t(`pricing-content.${periodLabelKey[period]}`)}
+              {t(`pricing-content.${periodLabelKey[period] /* eslint-disable-line security/detect-object-injection -- period is a static union key */}`)}
               {period === 'annually' && annualSavingsPercent > 0 && <span class="bg-secondary text-secondary-contrast rounded-full px-2 py-0.5 text-xs font-semibold">{t('pricing-content.save-up-to').replace('{percent}', String(annualSavingsPercent))}</span>}
             </button>
           ))}
@@ -428,6 +429,7 @@ const plans = cfg.plans.map((plan) => {
 
     let first = true;
     const render = (key: string, direction: 'up' | 'down') => {
+      // eslint-disable-next-line security/detect-object-injection -- key is a static template
       const v = priceMap[key];
       if (!v) return;
 

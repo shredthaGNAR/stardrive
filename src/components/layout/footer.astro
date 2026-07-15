@@ -25,7 +25,7 @@ const linkedinUrl: string|undefined = 'https://www.linkedin.com/company/peltmong
 
 <footer role="contentinfo" class="from-secondary-dark bg-linear-to-t to-stone-900 pt-14">
   <div class="container flex flex-col items-start justify-between gap-x-20 gap-y-10 px-7 md:flex-row">
-    <div class="flex flex-col w-full items-center text-center md:text-left md:items-start gap-5 md:max-w-[350px] pb-10 border-b md:border-0 border-white/10">
+    <div class="flex w-full flex-col items-center gap-5 border-b border-white/10 pb-10 text-center md:max-w-[350px] md:items-start md:border-0 md:text-left">
       <div class="w-auto max-w-[200px]">
         <a href={getLocaleUrl('/', locale)} class="block w-full select-none">
           <p class="sr-only hidden" id="siteNameLogo">{themeConfig.name}</p>
@@ -59,22 +59,24 @@ const linkedinUrl: string|undefined = 'https://www.linkedin.com/company/peltmong
           )
         }
       </div>
-      {themeConfig.askAiTrigger && (
-        <div class="mt-14 md:mt-5">
-          <div class="text-xs mb-3 text-text-dark">{t('labels.ask-ai')}:</div>
-          <div class="flex items-center justify-center space-x-6 lg:justify-start lg:space-x-3">
-            <a class="btn-subtle rounded-full p-1.5" title="ChatGPT" target="_blank" rel="noopener" href={`https://chatgpt.com/?prompt=${encodeURIComponent(themeConfig.askAiTrigger + promptLocaleAdd)}`}>
-              <Icon name="simple-icons:openai" class="h-5 w-5" />
-            </a>
-            <a class="btn-subtle rounded-full p-1.5" title="Claude" target="_blank" rel="noopener" href={`https://claude.ai/new?q=${encodeURIComponent(themeConfig.askAiTrigger + promptLocaleAdd)}`}>
-              <Icon name="simple-icons:claude" class="h-5 w-5" />
-            </a>
-            <a class="btn-subtle rounded-full p-1.5" title="Perplexity" target="_blank" rel="noopener" href={`https://www.perplexity.ai/search?q=${encodeURIComponent(themeConfig.askAiTrigger + promptLocaleAdd)}`}>
-              <Icon name="simple-icons:perplexity" class="h-5 w-5" />
-            </a>
+      {
+        themeConfig.askAiTrigger && (
+          <div class="mt-14 md:mt-5">
+            <div class="text-text-dark mb-3 text-xs">{t('labels.ask-ai')}:</div>
+            <div class="flex items-center justify-center space-x-6 lg:justify-start lg:space-x-3">
+              <a class="btn-subtle rounded-full p-1.5" title="ChatGPT" target="_blank" rel="noopener" href={`https://chatgpt.com/?prompt=${encodeURIComponent(themeConfig.askAiTrigger + promptLocaleAdd)}`}>
+                <Icon name="simple-icons:openai" class="h-5 w-5" />
+              </a>
+              <a class="btn-subtle rounded-full p-1.5" title="Claude" target="_blank" rel="noopener" href={`https://claude.ai/new?q=${encodeURIComponent(themeConfig.askAiTrigger + promptLocaleAdd)}`}>
+                <Icon name="simple-icons:claude" class="h-5 w-5" />
+              </a>
+              <a class="btn-subtle rounded-full p-1.5" title="Perplexity" target="_blank" rel="noopener" href={`https://www.perplexity.ai/search?q=${encodeURIComponent(themeConfig.askAiTrigger + promptLocaleAdd)}`}>
+                <Icon name="simple-icons:perplexity" class="h-5 w-5" />
+              </a>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </div>
     <div class="flex w-full flex-col md:w-fit">
       <FooterNav {locale} {isHome} />
