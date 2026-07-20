@@ -13,7 +13,7 @@
 
 Stardrive is a very opinionated boilerplate for [Astro](https://astro.build/).
 
-The core idea is to have a strong boilerplate to...
+The core idea is to have a strong boilerplate to....
 
 1. skip the first 36 steps of creating a high-class website, if you do it manually;
 2. make sure all the important basics (security, SEO, meta data, accessibility, ...) are included when using AI agents.
